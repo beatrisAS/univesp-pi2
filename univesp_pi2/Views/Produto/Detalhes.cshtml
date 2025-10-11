@@ -1,0 +1,55 @@
+@model univesp_pi2.Models.Produto
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-5 text-center">
+
+                    <!-- Imagem do produto -->
+                    <img src="@Model.ImagemUrl" alt="@Model.Nome"
+                         class="img-fluid mb-4 produto-img">
+
+                    <!-- Nome e preço -->
+                    <h2 class="fw-bold">@Model.Nome</h2>
+                    <h4 class="text-success mb-3">R$ @Model.Preco</h4>
+
+                    <!-- Descrição -->
+                    <p class="text-muted">@Model.Descricao</p>
+
+                    <!-- Controle de quantidade -->
+                    <div class="d-flex justify-content-center align-items-center my-4">
+                        <button class="btn btn-outline-secondary btn-lg"
+                                onclick="alterarQtd(-1)">−</button>
+                        <input id="qtd" type="text" value="1"
+                               class="form-control text-center mx-3 qtd-input"
+                               readonly>
+                        <button class="btn btn-outline-secondary btn-lg"
+                                onclick="alterarQtd(1)">+</button>
+                    </div>
+
+                    <!-- Botão principal -->
+                    <button class="btn btn-warning btn-lg fw-bold w-100 rounded-3 shadow-sm">
+                        ADICIONAR AO CARRINHO
+                    </button>
+
+                    <hr class="my-5">
+
+                    <!-- Detalhes -->
+                    <h5 class="fw-semibold">Detalhes do Produto</h5>
+                    <p>@Model.Detalhes</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script quantidade -->
+<script>
+    function alterarQtd(valor) {
+        let qtdInput = document.getElementById("qtd");
+        let qtd = parseInt(qtdInput.value) + valor;
+        if (qtd < 1) qtd = 1;
+        qtdInput.value = qtd;
+    }
+</script>
