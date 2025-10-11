@@ -1,0 +1,83 @@
+﻿@model univesp_pi2.Models.LoginViewModel;
+@{
+    // Define o título da página
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
+@section Styles {
+    @* O CSS para este card é carregado no site.css *@
+    <link href="~/css/login.css" rel="stylesheet" />
+}
+
+
+<div class="login-page-container">
+    <a href="@Url.Action("Index", "Home")" class="back-link">
+        &#x2190; Voltar
+    </a> 
+    
+    <div class="login-card"> 
+        
+        <div class="header-section">
+            <div class="wrench-icon">
+                <img src="/img/wrench-icon.png" alt="Wrench Icon" />
+            </div>
+            <h2>ML3 Peças Automotivas</h2>
+            <p>Acesse sua conta ou cadastre-se</p>
+        </div>
+        
+        <div class="toggle-buttons">
+            <button type="button" class="btn-toggle active" id="btn-entrar">Entrar</button> 
+            <a href="@Url.Action("Register", "Account")" class="btn-toggle" id="btn-cadastrar">Cadastrar</a>
+        </div>
+
+        <form asp-action="Login" asp-controller="Login" method="post" class="login-form">
+            
+            <label class="input-label" for="User">E-mail</label>
+            <div class="input-group">
+                <span class="input-icon email-icon"></span> 
+                <input type="email" asp-for="User" class="form-control" placeholder="seu@email.com" />
+                <span asp-validation-for="User" class="text-danger"></span>
+            </div>
+
+            <label class="input-label" for="Password">Senha</label>
+            <div class="input-group">
+                <span class="input-icon password-lock-icon"></span>
+                <input type="password" asp-for="Password" class="form-control" placeholder="Sua senha" />
+                <span class="password-toggle-icon"></span> 
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="options-row">
+                <div class="remember-me">
+                    <input type="checkbox" asp-for="RememberMe" id="remember-me-checkbox" />
+                    <label for="remember-me-checkbox">Lembrar-me</label>
+                </div>
+                <a asp-action="ForgotPassword" asp-controller="Login" class="forgot-password-link">Esqueceu a senha?</a>
+            </div>
+
+            <button type="submit" class="login-button">
+                Entrar
+            </button>
+            
+            <div class="social-separator">
+                ou continue com
+            </div>
+
+            <div class="social-login-buttons">
+                <button type="button" class="btn-social google-btn">
+                    Continuar com Google
+                </button>
+                <button type="button" class="btn-social facebook-btn">
+                    Continuar com Facebook
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

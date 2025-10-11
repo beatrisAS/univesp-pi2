@@ -5,14 +5,41 @@ namespace univesp_pi2.Controllers
 {
     public class LoginController : Controller
     {
+      
+        public IActionResult Index()
+        {
+            
+            return View("Index", new LoginViewModel());
+        }
+
+        [HttpPost]
         public IActionResult Login(LoginViewModel login)
         {
-            if(login.User == null && login.Password == null)
+          
             {
-                return View();
+                
+                return View("Index", login); 
             }
 
-            return RedirectToAction("Index", "Home");
+       
+            const string usuario_teste = "teste@ml3pecas.com";
+            const string senha_teste = "123456";
+
+            if (login.User == usuario_teste && login.Password == senha_teste)
+            {
+                
+                
+            
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+               
+                ModelState.AddModelError(string.Empty, "Usuário ou senha inválidos. Por favor, tente novamente.");
+                
+                
+                return View("Index", login);
+            }
         }
     }
 }

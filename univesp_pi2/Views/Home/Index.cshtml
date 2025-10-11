@@ -1,59 +1,192 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@*  *@
+@{
+    ViewData["Title"] = "Página Inicial";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
 }
 
-<link rel="stylesheet" href="@Url.Content("~/css/style.css")">
-<header>
-    <div class="logo"><img src="/media/images/logo.png" width="300" height="230"></div>
-    <div class="busca-container">
-        <input type="text" placeholder="Buscar...">
-        <button>Buscar</button>
-    </div>
-</header>
-<nav>
-    <a href="#">Home</a>
-    <a href="#">Produtos</a>
-    <a href="#">Categorias</a>
-    <a href="#">Sobre</a>
-</nav>
-<div class="banner"></div>
-<div class="container">
-    <h2 class="section-title">Categorias Populares</h2>
-    <div class="categorias">
-        <div class="card">
-            <h3>Suspensão</h3>
-            <p>Amortecedores, molas, kits de suspensão.</p>
-        </div>
-        <div class="card">
-            <h3>Freios</h3>
-            <p>Pastilhas, discos, sensores ABS.</p>
-        </div>
-        <div class="card">
-            <h3>Motor</h3>
-            <p>Correias, filtros, velas, juntas.</p>
-        </div>
-    </div>
+@section Styles {
+    <style>
+      
+        .hero-section {
+            background-image: url('/images/background-hero.jpg'); 
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            color: white;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            padding: 5rem 0;
+        }
+        .hero-section .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); 
+        }
+        .hero-section .container {
+             position: relative;
+             z-index: 10;
+        }
+    </style>
+}
 
-    <h2 class="section-title">Destaques</h2>
-    <div class="produtos">
-        <div class="card">
-            <h3>Amortecedor Esportivo</h3>
-            <p>Alta performance e durabilidade.</p>
-            <p><strong>R$ 320,00</strong></p>
+<main>
+    
+    <section class="hero-section">
+        <div class="overlay"></div>
+        <div class="container d-flex align-items-center">
+            <div style="max-width: 576px;">
+                <h2 class="display-3 fw-bolder mb-4 text-white">ML3 Peças Automotivas</h2>
+                <p class="lead mb-4 text-white">Encontre as melhores peças para seu veículo com garantia e entrega rápida. Mais de 10.000 produtos das melhores marcas.</p>
+               
+                <a asp-controller="Catalogo" asp-action="Index" class="btn btn-brand btn-lg fw-bold py-3 px-4">
+                    Ver Catálogo
+                </a>
+            </div>
         </div>
-        <div class="card">
-            <h3>Pastilhas Cerâmicas</h3>
-            <p>Mais segurança e menor desgaste.</p>
-            <p><strong>R$ 180,00</strong></p>
-        </div>
-        <div class="card">
-            <h3>Kit Correia Dentada</h3>
-            <p>Compatível com vários modelos.</p>
-            <p><strong>R$ 250,00</strong></p>
-        </div>
-    </div>
-</div>
-<footer>
-    <p>&copy; 2025 Todos os direitos reservados</p>
-</footer>
+    </section>
 
+    
+    <section class="bg-white">
+        <div class="container py-5">
+            <div class="row text-center g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="d-inline-block bg-orange-100 p-3 rounded-circle mb-3">
+                        <i data-lucide="truck" class="text-brand-orange"></i>
+                    </div>
+                    <h3 class="fw-bold fs-5">Frete Grátis</h3>
+                    <p class="text-muted">Acima de R$ 199</p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="d-inline-block bg-blue-100 p-3 rounded-circle mb-3">
+                        <i data-lucide="shield-check" class="text-primary"></i>
+                    </div>
+                    <h3 class="fw-bold fs-5">Garantia Total</h3>
+                    <p class="text-muted">Produtos originais</p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="d-inline-block bg-green-100 p-3 rounded-circle mb-3">
+                        <i data-lucide="credit-card" class="text-success"></i>
+                    </div>
+                    <h3 class="fw-bold fs-5">Parcelamento</h3>
+                    <p class="text-muted">Em até 12x sem juros</p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="d-inline-block bg-purple-100 p-3 rounded-circle mb-3">
+                        <i data-lucide="headset" class="text-purple"></i>
+                    </div>
+                    <h3 class="fw-bold fs-5">Atendimento</h3>
+                    <p class="text-muted">Seg à Sex 8h-18h</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+    <section class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="h1 fw-bold">Categorias</h2>
+            <p class="text-muted mt-2">Encontre rapidamente o que precisa para seu veículo</p>
+        </div>
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3">
+           
+            <div class="col"><a asp-controller="Catalogo" asp-action="Index" asp-route-category="freios" class="category-card shadow-sm"><i data-lucide="disc-3"></i><span class="fw-semibold">Freios</span></a></div>
+            <div class="col"><a asp-controller="Catalogo" asp-action="Index" asp-route-category="motor" class="category-card shadow-sm"><i data-lucide="car-engine"></i><span class="fw-semibold">Motor</span></a></div>
+            <div class="col"><a asp-controller="Catalogo" asp-action="Index" asp-route-category="suspensao" class="category-card shadow-sm"><i data-lucide="wrench"></i><span class="fw-semibold">Suspensão</span></a></div>
+            <div class="col"><a asp-controller="Catalogo" asp-action="Index" asp-route-category="eletrica" class="category-card shadow-sm"><i data-lucide="lightbulb"></i><span class="fw-semibold">Elétrica</span></a></div>
+            <div class="col"><a asp-controller="Catalogo" asp-action="Index" asp-route-category="filtros" class="category-card shadow-sm"><i data-lucide="search-check"></i><span class="fw-semibold">Filtros</span></a></div>
+            <div class="col"><a asp-controller="Catalogo" asp-action="Index" asp-route-category="fluidos" class="category-card shadow-sm"><i data-lucide="blinds"></i><span class="fw-semibold">Fluidos</span></a></div>
+        </div>
+    </section>
+
+   
+    <section class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <h2 class="h1 fw-bold">Produtos em Destaque</h2>
+                <p class="text-muted mt-2">Selecionamos os melhores produtos para você</p>
+            </div>
+            
+            <a asp-controller="Catalogo" asp-action="Index" class="btn btn-outline-secondary">Ver Todos</a>
+        </div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @*  *@
+            <div class="col">
+                <div class="card h-100 product-card shadow-sm">
+                    <img src="/images/bateria.jpg" class="card-img-top" alt="Bateria Automotiva 60Ah">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-muted small mb-1">Moura</p>
+                                <h3 class="card-title fs-5 fw-bold">Bateria Automotiva 60Ah</h3>
+                            </div>
+                            <span class="badge bg-yellow-100 text-dark-emphasis fw-bold"><i data-lucide="star"></i> 4.7</span>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="product-price mb-0 mt-3">R$ 289,90</p>
+                            <p class="text-muted small">ou 3x de R$ 96,63</p>
+                          
+                            <a asp-controller="Catalogo" asp-action="Details" asp-route-id="1" class="btn btn-brand w-100 fw-bold mt-2"><i data-lucide="shopping-cart" style="width:18px;"></i> Comprar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100 product-card shadow-sm">
+                    <div class="position-relative">
+                        <img src="/images/disco-freio.jpg" class="card-img-top" alt="Disco de Freio Ventilado">
+                        <span class="position-absolute top-0 end-0 bg-danger text-white small fw-semibold px-2 py-1 rounded-pill m-2">Indisponível</span>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-muted small mb-1">TRW</p>
+                                <h3 class="card-title fs-5 fw-bold">Disco de Freio Ventilado</h3>
+                            </div>
+                            <span class="badge bg-yellow-100 text-dark-emphasis fw-bold"><i data-lucide="star"></i> 4.4</span>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="product-price mb-0 mt-3">R$ 156,90</p>
+                            <p class="text-muted small">ou 3x de R$ 52,30</p>
+                            <button class="btn btn-secondary w-100 fw-bold mt-2" disabled><i data-lucide="shopping-cart" style="width:18px;"></i> Comprar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100 product-card shadow-sm">
+                    <img src="/images/vela-ignicao.jpg" class="card-img-top" alt="Vela de Ignição Iridium">
+                    <div class="card-body d-flex flex-column">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p class="text-muted small mb-1">NGK</p>
+                                <h3 class="card-title fs-5 fw-bold">Vela de Ignição Iridium</h3>
+                            </div>
+                            <span class="badge bg-yellow-100 text-dark-emphasis fw-bold"><i data-lucide="star"></i> 4.9</span>
+                        </div>
+                        <div class="mt-auto">
+                            <p class="product-price mb-0 mt-3">R$ 45,90</p>
+                            <p class="text-muted small">ou 3x de R$ 15,30</p>
+                           
+                            <a asp-controller="Catalogo" asp-action="Details" asp-route-id="3" class="btn btn-brand w-100 fw-bold mt-2"><i data-lucide="shopping-cart" style="width:18px;"></i> Comprar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="bg-dark-blue-primary text-white py-5">
+        <div class="container text-center">
+            <h2 class="h1 fw-bold">Receba ofertas exclusivas</h2>
+            <p class="text-white-50 mt-2 mb-4">Cadastre-se e seja o primeiro a saber das nossas promoções</p>
+            <a href="/cadastro" class="btn btn-brand btn-lg fw-bold py-3 px-4">
+                Cadastrar
+            </a>
+        </div>
+    </section>
+</main>
