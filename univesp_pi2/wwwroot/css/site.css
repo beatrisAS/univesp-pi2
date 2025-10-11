@@ -1,31 +1,599 @@
-html {
-  font-size: 14px;
+/* =======================================================
+   Variáveis de Cores e Configurações Globais
+   ======================================================= */
+:root {
+    
+    --brand-orange: #ff6600; 
+    --dark-blue-primary: #121a2c; 
+    --dark-blue-secondary: #0d121c; 
+    
+    
+    --gray-background: #f8f9fa; 
+    --text-color: #333;
+    --text-muted: #666;
+    --input-background: #f7f7f7;
+    --border-color: #ccc;
+
+    
+    --orange-100: #fff4e5; 
+    --blue-100: #e5f6ff; 
+    --green-100: #e5ffe8;
+    --purple-100: #f0e6ff; 
+    --yellow-100: #fffed1; 
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
 
 body {
-  margin-bottom: 60px;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--gray-background); 
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+h1, h2, h3, h4, h5, h6 {
+    color: var(--dark-blue-primary);
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+
+.bg-brand-orange { background-color: var(--brand-orange) !important; }
+.text-brand-orange { color: var(--brand-orange) !important; }
+.bg-dark-blue-primary { background-color: var(--dark-blue-primary) !important; }
+.bg-dark-blue-secondary { background-color: var(--dark-blue-secondary) !important; }
+.text-purple { color: #7c3aed !important; }
+
+
+.btn-brand {
+    background-color: var(--brand-orange);
+    border-color: var(--brand-orange);
+    color: white;
+    transition: background-color 0.2s;
+    font-weight: 700 !important;
+}
+
+.btn-brand:hover {
+    background-color: #e65c00;
+    border-color: #e65c00;
+    color: white;
+}
+
+
+/* =======================================================
+   Estilos do Layout (Navbar, Busca)
+   ======================================================= */
+
+
+header .text-secondary {
+    color: var(--text-muted) !important;
+    transition: color 0.2s;
+}
+
+header .text-secondary:hover {
+    color: var(--brand-orange) !important;
+}
+
+
+.navbar-expand-lg {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.navbar-nav .nav-link {
+    color: white;
+    font-weight: 500;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    transition: color 0.2s;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: var(--brand-orange);
+}
+
+
+.navbar-nav .nav-link.py-0 {
+    font-size: 0.9rem;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+    color: #ccc !important;
+    transition: color 0.2s;
+}
+
+.navbar-nav .nav-link.py-0:hover {
+    color: var(--brand-orange) !important;
+}
+
+
+.input-group .form-control {
+    border-top-left-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+    border-color: var(--border-color);
+}
+
+.input-group .btn {
+    border-top-right-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+    border-color: var(--brand-orange);
+}
+
+
+/* =======================================================
+   PÁGINA HOME - Seções (Index.cshtml)
+   ======================================================= */
+
+
+.bg-orange-100 { background-color: var(--orange-100) !important; }
+.bg-blue-100 { background-color: var(--blue-100) !important; }
+.bg-green-100 { background-color: var(--green-100) !important; }
+.bg-purple-100 { background-color: var(--purple-100) !important; }
+
+
+
+.category-card {
+    background-color: white;
+    border: 1px solid #e9ecef;
+    border-radius: 0.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    color: var(--dark-blue-primary);
+    padding: 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.category-card i {
+    width: 40px;
+    height: 40px;
+    stroke-width: 2;
+    margin-bottom: 5px;
+}
+
+
+.category-card i[data-lucide="disc-3"] { color: #dc3545; } 
+.category-card i[data-lucide="car-engine"] { color: #a855f7; } 
+.category-card i[data-lucide="wrench"] { color: #6c757d; } 
+.category-card i[data-lucide="lightbulb"] { color: #ffc107; } 
+.category-card i[data-lucide="search-check"] { color: #0d6efd; }
+.category-card i[data-lucide="blinds"] { color: #0dcaf0; }
+
+
+
+.product-card {
+    border: 1px solid #e9ecef;
+    border-radius: 0.5rem;
+    transition: box-shadow 0.2s;
+}
+
+.product-card:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+    height: 225px; 
+    object-fit: cover;
+}
+
+.product-price {
+    color: var(--dark-blue-primary);
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+
+.badge.bg-yellow-100 {
+    background-color: var(--yellow-100) !important;
+    color: var(--dark-blue-primary) !important;
+    display: flex;
+    align-items: center;
+}
+.badge.bg-yellow-100 i {
+    fill: #fcc419;
+    color: #fcc419;
+    margin-right: 4px;
+    width: 14px;
+    height: 14px;
+}
+
+/* =======================================================
+   Rodapé (Footer)
+   ======================================================= */
+
+footer {
+    font-size: 0.9rem;
+}
+
+footer a.text-muted {
+    color: #ccc !important;
+    transition: color 0.2s;
+}
+
+footer a.text-muted:hover {
+    color: var(--brand-orange) !important;
+}
+
+
+footer .list-unstyled.small i {
+    stroke-width: 1.5;
+}
+
+
+/* =======================================================
+   PÁGINA DE LOGIN (Card Centralizado - Login.cshtml)
+   ======================================================= */
+
+
+.login-page-container {
+    background-color: var(--gray-background, #f0f0f0);
+    min-height: calc(100vh - 200px); 
+    padding: 20px;
+    margin: 50px auto; 
+    max-width: 400px;
+    box-sizing: border-box;
+}
+
+
+.back-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+
+.login-card {
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+.header-section {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.wrench-icon {
+    width: 70px;
+    height: 70px;
+    background-color: var(--brand-orange);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 15px;
+}
+
+.wrench-icon img {
+    width: 50%;
+    height: 50%;
+    filter: brightness(0) invert(1);
+}
+
+.header-section h2 { font-weight: 600; }
+.header-section p { color: var(--text-muted); }
+
+
+
+.toggle-buttons {
+    display: flex;
+    background-color: var(--input-background);
+    border-radius: 8px;
+    margin-bottom: 30px;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.btn-toggle {
+    flex-grow: 1;
+    padding: 10px 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-align: center;
+    text-decoration: none;
+    border-radius: 6px;
+}
+
+.btn-toggle.active {
+    background-color: #fff;
+    color: var(--text-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+.input-label {
+    display: block;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+    margin-top: 15px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.login-form .form-control {
+    width: 100%;
+    padding: 12px 12px 12px 40px; 
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: var(--input-background);
+    color: var(--text-color);
+}
+
+.login-form .form-control:focus {
+    border-color: var(--brand-orange);
+    background-color: white;
+    box-shadow: 0 0 0 0.25rem rgba(255, 102, 0, 0.1);
+}
+
+
+.login-form .text-danger {
+    font-size: 12px;
+    color: #dc3545;
+    margin-top: 5px;
+    display: block;
+}
+
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-color: var(--text-muted);
+    background-size: contain;
+    background-repeat: no-repeat;
+    
+}
+.password-toggle-icon {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    background-color: var(--text-muted);
+    background-size: contain;
+}
+
+
+
+.options-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 25px;
+    color: var(--text-muted);
+}
+
+.forgot-password-link {
+    color: var(--brand-orange);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+
+.login-button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    background-color: var(--brand-orange);
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin-bottom: 25px;
+}
+
+
+.social-separator {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 14px;
+    color: #999;
+    position: relative;
+    white-space: nowrap;
+}
+
+.social-separator::before,
+.social-separator::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 35%; 
+    height: 1px;
+    background-color: var(--border-color);
+}
+
+
+.social-login-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.btn-social {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    color: var(--text-color);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-social:hover {
+    background-color: #f5f5f5;
+    border-color: #aaa;
+}
+
+/* =======================================================
+   Estilos do Catálogo de Produtos
+   ======================================================= */
+
+
+.catalog-sidebar {
+    background-color: white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    
+    top: 20px; 
+    z-index: 100;
+}
+
+.filter-group {
+    padding-left: 10px;
+}
+
+
+.catalog-sidebar h5 {
+    color: var(--dark-blue-primary);
+    font-size: 1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    margin-bottom: 15px !important;
+}
+
+
+.form-check-input {
+    border-color: var(--border-color);
+}
+.form-check-input:checked {
+    background-color: var(--brand-orange);
+    border-color: var(--brand-orange);
+}
+
+
+.range-slider {
+    padding: 0 5px;
+}
+
+
+.catalog-toolbar {
+    background-color: white;
+    border: 1px solid #eee;
+}
+
+.view-mode-toggle .btn {
+    border-color: #ccc;
+    color: var(--text-color);
+}
+.view-mode-toggle .btn.active {
+    background-color: var(--dark-blue-primary);
+    border-color: var(--dark-blue-primary);
+    color: white;
+}
+.view-mode-toggle .btn:hover:not(.active) {
+    background-color: var(--input-background);
+}
+
+
+.list-view {
+    display: block !important;
+}
+
+.list-item-wrapper {
+    margin-bottom: 1rem;
+}
+
+.list-mode-card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 15px;
+    height: auto !important;
+}
+
+.list-mode-img-container {
+    flex: 0 0 200px; 
+    margin-right: 20px;
+    align-self: flex-start;
+}
+
+.list-mode-card .card-img-top {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.list-mode-price-and-btn {
+   
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-left: auto;
+}
+
+.list-mode-card .card-body {
+    flex-direction: row !important;
+    padding: 0.5rem 0 !important;
+    align-items: flex-start;
+}
+
+.list-mode-card .card-title {
+    font-size: 1.25rem !important;
+}
+
+.list-mode-price-and-btn .product-price {
+    font-size: 1.5rem;
+}
+
+.list-mode-price-and-btn .btn-brand {
+    width: 150px !important;
+}
+
+
+@media (max-width: 768px) {
+    .list-mode-card {
+        flex-direction: column;
+    }
+    .list-mode-img-container {
+        flex: none;
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    .list-mode-card .card-body {
+        flex-direction: column !important;
+        width: 100%;
+    }
+    .list-mode-price-and-btn {
+        align-items: flex-start;
+        margin-left: 0;
+        margin-top: 15px;
+    }
+    .list-mode-price-and-btn .btn-brand {
+        width: 100% !important;
+    }
 }
