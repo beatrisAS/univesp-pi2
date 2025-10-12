@@ -1,83 +1,62 @@
-﻿@model univesp_pi2.Models.LoginViewModel;
+﻿@model LoginViewModel
 @{
-    // Define o título da página
     ViewData["Title"] = "Login";
-    Layout = "~/Views/Shared/_Layout.cshtml"; 
+    Layout = null;
 }
-@section Styles {
-    @* O CSS para este card é carregado no site.css *@
-    <link href="~/css/login.css" rel="stylesheet" />
-}
-
-
-<div class="login-page-container">
-    <a href="@Url.Action("Index", "Home")" class="back-link">
-        &#x2190; Voltar
-    </a> 
-    
-    <div class="login-card"> 
-        
-        <div class="header-section">
-            <div class="wrench-icon">
-                <img src="/img/wrench-icon.png" alt="Wrench Icon" />
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ML3 Peças</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="login-page-container">
+        <a href="@Url.Action("Index", "Home")" class="back-link text-decoration-none">
+            <i data-lucide="arrow-left" class="me-2"></i> Voltar
+        </a>
+        <div class="login-card">
+            <div class="login-icon">
+                <i data-lucide="wrench" class="text-white"></i>
             </div>
-            <h2>ML3 Peças Automotivas</h2>
+            <h2>AutoPeças</h2>
             <p>Acesse sua conta ou cadastre-se</p>
-        </div>
-        
-        <div class="toggle-buttons">
-            <button type="button" class="btn-toggle active" id="btn-entrar">Entrar</button> 
-            <a href="@Url.Action("Register", "Account")" class="btn-toggle" id="btn-cadastrar">Cadastrar</a>
-        </div>
-
-        <form asp-action="Login" asp-controller="Login" method="post" class="login-form">
-            
-            <label class="input-label" for="User">E-mail</label>
-            <div class="input-group">
-                <span class="input-icon email-icon"></span> 
-                <input type="email" asp-for="User" class="form-control" placeholder="seu@email.com" />
-                <span asp-validation-for="User" class="text-danger"></span>
+            <div class="login-toggle-buttons">
+                <button type="button" class="btn active">Entrar</button>
+                <a href="@Url.Action("Register", "Account")" class="btn">Cadastrar</a>
             </div>
-
-            <label class="input-label" for="Password">Senha</label>
-            <div class="input-group">
-                <span class="input-icon password-lock-icon"></span>
-                <input type="password" asp-for="Password" class="form-control" placeholder="Sua senha" />
-                <span class="password-toggle-icon"></span> 
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-
-            <div class="options-row">
-                <div class="remember-me">
-                    <input type="checkbox" asp-for="RememberMe" id="remember-me-checkbox" />
-                    <label for="remember-me-checkbox">Lembrar-me</label>
+            <form action="@Url.Action("Login", "Login")" method="post" class="text-start mt-4">
+                <div class="mb-3">
+                    <label asp-for="User" class="form-label fw-semibold">E-mail</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i data-lucide="mail"></i></span>
+                        <input type="email" asp-for="User" class="form-control" placeholder="seu@email.com" />
+                    </div>
                 </div>
-                <a asp-action="ForgotPassword" asp-controller="Login" class="forgot-password-link">Esqueceu a senha?</a>
-            </div>
-
-            <button type="submit" class="login-button">
-                Entrar
-            </button>
-            
-            <div class="social-separator">
-                ou continue com
-            </div>
-
-            <div class="social-login-buttons">
-                <button type="button" class="btn-social google-btn">
-                    Continuar com Google
-                </button>
-                <button type="button" class="btn-social facebook-btn">
-                    Continuar com Facebook
-                </button>
-            </div>
-        </form>
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label fw-semibold">Senha</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i data-lucide="lock"></i></span>
+                        <input type="password" asp-for="Password" class="form-control" placeholder="Sua senha" />
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" asp-for="RememberMe">
+                        <label class="form-check-label small" asp-for="RememberMe">Lembrar-me</label>
+                    </div>
+                    <a href="#" class="small">Esqueceu a senha?</a>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg">Entrar</button>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-@section Scripts {
-    @{
-
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

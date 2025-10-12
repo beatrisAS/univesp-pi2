@@ -1,0 +1,52 @@
+@model univesp_pi2.Areas.Admin.Models.DashboardViewModel
+@{ ViewData["Title"] = "Dashboard"; }
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-lg-3"><div class="card summary-card h-100"><div class="card-body"><h6 class="text-muted">Vendas Totais</h6><p class="h3 fw-bold">@Model.VendasTotais.ToString("C")</p></div></div></div>
+    <div class="col-md-6 col-lg-3"><div class="card summary-card h-100"><div class="card-body"><h6 class="text-muted">Pedidos</h6><p class="h3 fw-bold">@Model.TotalPedidos</p></div></div></div>
+    <div class="col-md-6 col-lg-3"><div class="card summary-card h-100"><div class="card-body"><h6 class="text-muted">Clientes</h6><p class="h3 fw-bold">@Model.TotalClientes</p></div></div></div>
+    <div class="col-md-6 col-lg-3"><div class="card summary-card h-100"><div class="card-body"><h6 class="text-muted">Produtos</h6><p class="h3 fw-bold">@Model.ProdutosBaixoEstoque <small class="fs-6 text-danger">em baixo estoque</small></p></div></div></div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Produtos Mais Vendidos</h5>
+                <ul class="list-group list-group-flush">
+                    @foreach(var product in Model.ProdutosMaisVendidos)
+                    {
+                        <li class="list-group-item d-flex align-items-center">
+                            <img src="@product.ImageUrl" width="40" class="rounded me-3" />
+                            <div class="flex-grow-1">
+                                <p class="fw-semibold mb-0">@product.Name</p>
+                                <small class="text-muted">@product.Brand</small>
+                            </div>
+                            <span class="fw-bold">@product.Price.ToString("C")</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Pedidos Recentes</h5>
+                <ul class="list-group list-group-flush">
+                     @foreach(var order in Model.PedidosRecentes)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="fw-semibold mb-0">#@order.Id.ToString("000")</p>
+                                <small class="text-muted">@order.ClienteNome</small>
+                            </div>
+                            <span class="badge @(order.Status == "Enviado" ? "bg-primary" : "bg-warning")">@order.Status</span>
+                            <span class="fw-bold">@order.Total.ToString("C")</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

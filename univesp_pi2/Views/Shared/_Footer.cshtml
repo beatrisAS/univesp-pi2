@@ -1,0 +1,44 @@
+<footer class="bg-dark-blue-primary">
+    <div class="container py-5">
+        <div class="row g-5">
+            <div class="col-lg-3 col-md-6">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-brand-orange p-2 rounded d-flex align-items-center justify-content-center">
+                        <i data-lucide="wrench" class="text-white"></i>
+                    </div>
+                    <h5 class="ms-3 mb-0 text-white">ML3 Peças Automotivas</h5>
+                </div>
+                <p class="small text-white-50">Sua loja online de autopeças com os melhores preços e qualidade garantida.</p>
+                <div class="mt-4">
+                    <a href="#" class="text-white-50 me-3"><i data-lucide="facebook"></i></a>
+                    <a href="#" class="text-white-50 me-3"><i data-lucide="instagram"></i></a>
+                    <a href="#" class="text-white-50"><i data-lucide="twitter"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h5 class="fw-bold text-white mb-4">Links Úteis</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="@Url.Action("Index", "Catalogo")" class="text-white-50 text-decoration-none">Catálogo de Produtos</a></li>
+                    <li class="mb-2"><a href="@Url.Action("Index", "Catalogo", new { CurrentCategory = "Ofertas" })" class="text-white-50 text-decoration-none">Ofertas Especiais</a></li>
+                    <li class="mb-2"><a href="@Url.Action("Index", "Dashboard", new { area = "Admin" })" class="text-white-50 text-decoration-none">Painel Administrativo</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h5 class="fw-bold text-white mb-4">Atendimento</h5>
+                <ul class="list-unstyled small text-white-50">
+                    <li class="d-flex align-items-center mb-2"><i data-lucide="phone" class="me-2" style="width:16px;"></i> (11) 3000-0000</li>
+                    <li class="d-flex align-items-center mb-2"><i data-lucide="mail" class="me-2" style="width:16px;"></i> contato@ml3pecas.com.br</li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <h5 class="fw-bold text-white mb-4">Newsletter</h5>
+                <form>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Seu melhor e-mail">
+                        <button class="btn btn-primary" type="button">Cadastrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</footer>
