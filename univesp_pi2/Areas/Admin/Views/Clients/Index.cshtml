@@ -1,0 +1,44 @@
+@model List<univesp_pi2.Areas.Admin.Models.ClientViewModel>
+@{ ViewData["Title"] = "Gerenciamento de Clientes"; }
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0">Clientes</h4>
+    <a href="#" class="btn btn-primary"><i data-lucide="plus" class="me-1" style="width:16px;"></i> Adicionar Cliente</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table align-middle table-hover">
+            <thead>
+                <tr>
+                    <th>Nome do Cliente</th>
+                    <th>E-mail</th>
+                    <th>Data de Cadastro</th>
+                    <th class="text-center">Total de Pedidos</th>
+                    <th class="text-end">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var client in Model)
+                {
+                    <tr>
+                        <td>
+                            <p class="fw-semibold mb-0">@client.Name</p>
+                        </td>
+                        <td>
+                            <span class="text-muted">@client.Email</span>
+                        </td>
+                        <td>@client.JoinDate.ToString("dd/MM/yyyy")</td>
+                        <td class="text-center">
+                            <span class="badge bg-light text-dark border">@client.TotalOrders</span>
+                        </td>
+                        <td class="text-end">
+                            <a href="#" class="text-muted me-2" title="Ver"><i data-lucide="eye"></i></a>
+                            <a href="#" class="text-muted" title="Editar"><i data-lucide="edit"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

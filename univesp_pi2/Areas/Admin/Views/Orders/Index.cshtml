@@ -1,0 +1,49 @@
+@model List<univesp_pi2.Areas.Admin.Models.PedidoViewModel>
+@{ ViewData["Title"] = "Gerenciamento de Pedidos"; }
+
+<h4 class="fw-bold mb-4">Pedidos</h4>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table align-middle table-hover">
+            <thead>
+                <tr>
+                    <th>Pedido</th>
+                    <th>Cliente</th>
+                    <th>Data</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th class="text-end">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var order in Model)
+                {
+                    <tr>
+                        <td class="fw-semibold">#@order.Id.ToString("000")</td>
+                        <td>@order.ClienteNome</td>
+                        <td>@order.Data.ToString("yyyy-MM-dd")</td>
+                        <td>@order.Total.ToString("C")</td>
+                        <td>
+                            @{
+                                string badgeClass = order.Status switch
+                                {
+                                    "Enviado" => "bg-primary-subtle text-primary-emphasis border border-primary-subtle",
+                                    "Processando" => "bg-warning-subtle text-warning-emphasis border border-warning-subtle",
+                                    "Entregue" => "bg-success-subtle text-success-emphasis border border-success-subtle",
+                                    "Cancelado" => "bg-danger-subtle text-danger-emphasis border border-danger-subtle",
+                                    _ => "bg-light text-dark border"
+                                };
+                            }
+                            <span class="badge @badgeClass">@order.Status</span>
+                        </td>
+                        <td class="text-end">
+                            <a href="#" class="text-muted me-2" title="Ver"><i data-lucide="eye"></i></a>
+                            <a href="#" class="text-muted" title="Editar"><i data-lucide="edit"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

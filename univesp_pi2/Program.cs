@@ -31,6 +31,9 @@ app.MapControllerRoute(
     defaults: new { controller = "Catalogo", action = "Index" });
 
 
+app.MapControllerRoute(
+    name: "Admin",
+    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",

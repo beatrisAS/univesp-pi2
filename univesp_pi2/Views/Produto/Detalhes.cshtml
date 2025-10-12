@@ -1,55 +1,115 @@
-@model univesp_pi2.Models.Produto
+@model ProductDetailViewModel
+@{
+    ViewData["Title"] = Model.Product.Name;
+}
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-body p-5 text-center">
+<div class="container py-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Catalogo" asp-action="Index">Catálogo</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Product.Name</li>
+        </ol>
+    </nav>
+    <div class="row g-5">
+        <div class="col-lg-6">
+            <div class="mb-3">
+                <img src="@Model.Product.ImageUrl" alt="@Model.Product.Name" class="img-fluid rounded shadow-sm border product-main-image" id="main-product-image">
+            </div>
+            <div class="d-flex gap-2">
+                <img src="@Model.Product.ImageUrl" class="img-fluid rounded border product-thumbnail active" onclick="changeImage(this)">
+                <img src="@Model.Product.ImageUrl" class="img-fluid rounded border product-thumbnail" onclick="changeImage(this)">
+                <img src="@Model.Product.ImageUrl" class="img-fluid rounded border product-thumbnail" onclick="changeImage(this)">
+            </div>
+        </div>
 
-                    <!-- Imagem do produto -->
-                    <img src="@Model.ImagemUrl" alt="@Model.Nome"
-                         class="img-fluid mb-4 produto-img">
-
-                    <!-- Nome e preço -->
-                    <h2 class="fw-bold">@Model.Nome</h2>
-                    <h4 class="text-success mb-3">R$ @Model.Preco</h4>
-
-                    <!-- Descrição -->
-                    <p class="text-muted">@Model.Descricao</p>
-
-                    <!-- Controle de quantidade -->
-                    <div class="d-flex justify-content-center align-items-center my-4">
-                        <button class="btn btn-outline-secondary btn-lg"
-                                onclick="alterarQtd(-1)">−</button>
-                        <input id="qtd" type="text" value="1"
-                               class="form-control text-center mx-3 qtd-input"
-                               readonly>
-                        <button class="btn btn-outline-secondary btn-lg"
-                                onclick="alterarQtd(1)">+</button>
+        <div class="col-lg-6">
+            <span class="badge text-bg-secondary fw-semibold">@Model.Product.Brand</span>
+            <h1 class="h2 fw-bold mt-2">@Model.Product.Name</h1>
+            <p class="text-muted small">Código: @Model.Product.Code</p>
+            <div class="d-flex align-items-center my-3">
+                <div class="product-stars me-2">
+                    @for (int i = 0; i < 5; i++) { <i data-lucide="star" class="@(i < Math.Floor(Model.Product.Rating) ? "filled" : "")"></i> }
+                </div>
+                <span class="fw-bold me-1">@Model.Product.Rating.ToString("F1")</span>
+                <span class="text-muted small">(@Model.Product.ReviewCount avaliações)</span>
+            </div>
+            <p class="product-price display-5 fw-bold my-4">@Model.Product.FinalPrice.ToString("C")</p>
+            <p class="text-muted">ou 3x de @((Model.Product.FinalPrice / 3).ToString("C")) sem juros</p>
+            <div class="d-flex align-items-center my-4">
+                <label class="form-label me-3 mb-0 fw-semibold">Quantidade:</label>
+                <div class="quantity-input">
+                    <button class="btn btn-outline-secondary btn-sm" type="button">-</button>
+                    <input type="text" class="form-control form-control-sm text-center" value="1">
+                    <button class="btn btn-outline-secondary btn-sm" type="button">+</button>
+                </div>
+            </div>
+            <div class="d-grid gap-2 d-sm-flex">
+                <button class="btn btn-primary btn-lg flex-grow-1" disabled="@(!Model.Product.IsInStock)">
+                    <i data-lucide="shopping-cart" class="me-2"></i>
+                    @if (Model.Product.IsInStock) { <text>Adicionar ao Carrinho</text> } else { <text>Indisponível</text> }
+                </button>
+                <button class="btn btn-outline-secondary btn-lg"><i data-lucide="heart"></i></button>
+                <button class="btn btn-outline-secondary btn-lg"><i data-lucide="share-2"></i></button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-5">
+        <div class="card">
+            <div class="card-header bg-white border-0 p-3">
+                <ul class="nav nav-pills product-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#description-pane" type="button">Descrição</button></li>
+                    <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#compatibility-pane" type="button">Compatibilidade</button></li>
+                    <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#reviews-pane" type="button">Avaliações (@Model.Reviews.Count)</button></li>
+                </ul>
+            </div>
+            <div class="card-body p-4">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="description-pane">
+                        <h5 class="fw-bold mb-3">Descrição do Produto</h5>
+                        <p class="text-muted">@Model.Product.Descricao</p>
                     </div>
-
-                    <!-- Botão principal -->
-                    <button class="btn btn-warning btn-lg fw-bold w-100 rounded-3 shadow-sm">
-                        ADICIONAR AO CARRINHO
-                    </button>
-
-                    <hr class="my-5">
-
-                    <!-- Detalhes -->
-                    <h5 class="fw-semibold">Detalhes do Produto</h5>
-                    <p>@Model.Detalhes</p>
+                    <div class="tab-pane fade" id="compatibility-pane">
+                        <h5 class="fw-bold mb-3">Compatibilidade</h5>
+                        <p class="text-muted">Esta peça é compatível com os seguintes modelos:</p>
+                        <div class="row">
+                            @foreach(var item in Model.Product.Compatibility)
+                            {
+                                <div class="col-md-6 mb-2 d-flex align-items-center">
+                                    <i data-lucide="info" class="text-success me-2"></i> @item
+                                </div>
+                            }
+                        </div>
+                        <p class="text-warning mt-3 small"><i data-lucide="alert-triangle" class="me-1"></i> Sempre confirme a compatibilidade com seu modelo específico antes da compra.</p>
+                    </div>
+                    <div class="tab-pane fade" id="reviews-pane">
+                        <h5 class="fw-bold mb-4">Avaliações dos Clientes</h5>
+                        @foreach(var review in Model.Reviews) {
+                            <div class="d-flex justify-content-between border-bottom pb-3 mb-3">
+                                <div>
+                                    <p class="fw-bold mb-1">@review.Author</p>
+                                    <div class="product-stars mb-2">@for (int i = 0; i < 5; i++) { <i data-lucide="star" class="@(i < review.Rating ? "filled" : "")"></i> }</div>
+                                    <p class="text-muted mb-0">@review.Comment</p>
+                                </div>
+                                <small class="text-muted">@review.Date</small>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Script quantidade -->
-<script>
-    function alterarQtd(valor) {
-        let qtdInput = document.getElementById("qtd");
-        let qtd = parseInt(qtdInput.value) + valor;
-        if (qtd < 1) qtd = 1;
-        qtdInput.value = qtd;
-    }
-</script>
+@section Scripts {
+    <script>
+        function changeImage(thumbnail) {
+            document.getElementById('main-product-image').src = thumbnail.src;
+            document.querySelectorAll('.product-thumbnail').forEach(function(img) {
+                img.classList.remove('active');
+            });
+            thumbnail.classList.add('active');
+        }
+    </script>
+}
