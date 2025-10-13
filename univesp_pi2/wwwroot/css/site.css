@@ -365,3 +365,39 @@ header .form-control:focus, footer .form-control:focus {
     color: var(--text-dark);
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
+
+
+.card {
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    border-radius: var(--bs-border-radius);
+}
+
+
+.summary-card-sticky {
+    top: 1.5rem; 
+}
+
+
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: none;
+    background-color: transparent;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+
+.btn-danger-soft {
+    color: var(--text-muted); 
+}
+
+.btn-danger-soft:hover {
+    background-color: #fee2e2;
+    color: #ef4444;         
+}

@@ -1,0 +1,286 @@
+@model CartViewModel
+@{
+    ViewData["Title"] = "Carrinho de Compras";
+}
+
+<style>
+  
+    .summary-card-sticky {
+        top: 90px !important;
+    }
+
+    .remove-item-btn {
+        color: #dc2626; 
+    }
+
+
+    .btn-icon {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: none;
+        background-color: transparent;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .btn-danger-soft {
+        color: #6b7280; /* var(--text-muted) */
+    }
+
+  
+    .btn-danger-soft:hover {
+        background-color: #ef4444; 
+        color: #ffffff;
+        transform: scale(1.1);
+    }
+</style>
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h2 fw-bold">Carrinho de Compras</h1>
+        <a href="@Url.Action("Index", "Catalogo")" class="btn btn-outline-secondary">
+            <i data-lucide="arrow-left" class="me-2" style="width:16px;"></i>Continuar Comprando
+        </a>
+    </div>
+
+    @if (Model.Items.Any())
+    {
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="d-flex justify-content-between align-items-baseline mb-3">
+                    <p class="text-muted"><span id="cart-item-count">@Model.Items.Count</span> item(s) no carrinho</p>
+                    <button class="btn btn-sm btn-outline-danger" id="clear-cart-btn">
+                        <i data-lucide="trash-2" class="me-1" style="width:14px;"></i>Limpar Carrinho
+                    </button>
+                </div>
+                
+                <div id="cart-items-container">
+                    @foreach (var item in Model.Items)
+                    {
+                        <div class="card mb-3 cart-item" data-product-id="@item.ProductId" data-unit-price="@item.UnitPrice">
+                            <div class="card-body">
+                                <div class="row align-items-center">
+                                    <div class="col-md-2 col-3 text-center">
+                                        <img src="@item.ImageUrl" class="img-fluid rounded" alt="@item.Name" style="max-height: 80px;">
+                                    </div>
+                                    <div class="col-md-4 col-9">
+                                        <h6 class="mb-0 fw-semibold">@item.Name</h6>
+                                        <p class="small text-muted mb-0">@item.Brand - @item.Code</p>
+                                    </div>
+                                    <div class="col-md-3 col-6 mt-3 mt-md-0">
+                                        <div class="quantity-input mx-auto" style="max-width: 120px;">
+                                            <button class="btn btn-outline-secondary btn-sm quantity-minus" type="button">-</button>
+                                            <input type="text" class="form-control form-control-sm text-center quantity-value" value="@item.Quantity" readonly>
+                                            <button class="btn btn-outline-secondary btn-sm quantity-plus" type="button">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-4 mt-3 mt-md-0 text-end">
+                                        <p class="fw-bold mb-0 item-total-price">@item.TotalPrice.ToString("C")</p>
+                                    </div>
+                                    <div class="col-md-1 col-2 mt-3 mt-md-0 text-end">
+                                        <div class="col-md-1 col-2 mt-3 mt-md-0 text-center text-md-end"> @* Alinhamento ajustado para centralizar no mobile e manter flexibilidade no desktop *@
+                                            <button class="btn btn-sm btn-outline-danger remove-item-btn" type="button" title="Excluir item">
+                                                <i data-lucide="trash-2"></i> Excluir
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <a href="@Url.Action("Index", "Catalogo")" class="btn btn-secondary mt-3">Adicionar Mais Itens</a>
+            </div>
+
+            <div class="col-lg-4">
+                 <div class="sticky-top summary-card-sticky">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold mb-4">Resumo do Pedido</h5>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted">Subtotal</span>
+                                <span class="fw-semibold" id="summary-subtotal">@Model.Subtotal.ToString("C")</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="text-muted">Frete</span>
+                                <span class="fw-semibold" id="summary-shipping">@(Model.Shipping == 0 ? "Grátis" : Model.Shipping.ToString("C"))</span>
+                            </div>
+                            <p class="small text-center mb-3" id="shipping-message">@Model.FreeShippingMessage</p>
+                            <hr>
+                            <div class="d-flex justify-content-between fw-bold h5 mb-3">
+                                <span>Total</span>
+                                <span id="summary-total">@Model.Total.ToString("C")</span>
+                            </div>
+                            <div class="d-grid">
+                                <a href="@Url.Action("Index", "Checkout")" class="btn btn-primary btn-lg">Finalizar Compra</a>
+                            </div>
+                            <div class="text-center text-muted small mt-3">
+                                ou <strong>3x de @((Model.Total / 3).ToString("C"))</strong> sem juros
+                            </div>
+                            <hr>
+                            <ul class="list-unstyled text-muted small mt-3">
+                                <li class="mb-2 d-flex align-items-center"><i data-lucide="shield-check" class="text-success me-2"></i> Compra 100% segura</li>
+                                <li class="mb-2 d-flex align-items-center"><i data-lucide="truck" class="text-success me-2"></i> Entrega em todo Brasil</li>
+                                <li class="d-flex align-items-center"><i data-lucide="refresh-cw" class="text-success me-2"></i> Troca em até 30 dias</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <i data-lucide="shopping-cart" style="width: 64px; height: 64px;" class="text-muted mb-3"></i>
+            <h3 class="fw-bold">Seu carrinho está vazio</h3>
+            <p class="text-muted">Adicione produtos clicando no botão abaixo.</p>
+            <a href="@Url.Action("Index", "Catalogo")" class="btn btn-primary mt-3">Ver catálogo de peças</a>
+        </div>
+    }
+</div>
+
+
+@section Scripts {
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    console.log("Script do Carrinho Iniciado.");
+
+    // Garante que os ícones Lucide sejam renderizados antes de qualquer coisa
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+        console.log("Ícones Lucide renderizados.");
+    }
+
+    // --- Funções de cálculo e API (sem alterações, já estavam corretas) ---
+    const freeShippingThreshold = 199.00;
+    const standardShippingCost = 29.90;
+    const formatCurrency = value => value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+    function updateCartSummary() {
+        let subtotal = 0;
+        const items = document.querySelectorAll('.cart-item');
+        
+        if (items.length === 0) {
+            window.location.reload();
+            return;
+        }
+
+        items.forEach(item => {
+            const unitPrice = parseFloat(item.dataset.unitPrice.replace(',', '.')); // Garantir que o separador decimal seja ponto
+            const quantity = parseInt(item.querySelector('.quantity-value').value);
+            const itemTotal = unitPrice * quantity;
+            item.querySelector('.item-total-price').textContent = formatCurrency(itemTotal);
+            subtotal += itemTotal;
+        });
+        
+        let shipping = subtotal >= freeShippingThreshold ? 0 : standardShippingCost;
+        let total = subtotal + shipping;
+        
+        document.getElementById('summary-subtotal').textContent = formatCurrency(subtotal);
+        document.getElementById('summary-shipping').textContent = shipping === 0 ? 'Grátis' : formatCurrency(shipping);
+        document.getElementById('summary-total').textContent = formatCurrency(total);
+        document.getElementById('cart-item-count').textContent = items.length;
+
+        const shippingMessageEl = document.getElementById('shipping-message');
+        if (shipping === 0) {
+            shippingMessageEl.textContent = 'Você ganhou frete grátis!';
+            shippingMessageEl.className = 'text-success small text-center mb-3';
+        } else {
+            const remaining = freeShippingThreshold - subtotal;
+            shippingMessageEl.textContent = `Faltam ${formatCurrency(remaining)} para frete grátis!`;
+            shippingMessageEl.className = 'text-primary small text-center mb-3';
+        }
+        console.log("Resumo do carrinho atualizado. Subtotal:", subtotal);
+    }
+
+   // VERSÃO NOVA E CORRIGIDA
+function callApi(action, productId, quantity = 0) {
+    const url = `@Url.Action("Action", "Cart")`.replace("Action", action);
+    console.log(`Chamando API: ${action}, Produto ID: ${productId}, Quantidade: ${quantity}, URL: ${url}`);
+    
+    return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }, // <-- LINHA REMOVIDA
+        body: JSON.stringify({ productId, quantity })
+    });
+}
+
+    // --- Listeners de Eventos ---
+    const cartContainer = document.getElementById('cart-items-container');
+    if (cartContainer) {
+        cartContainer.addEventListener('click', function (e) {
+            const itemElement = e.target.closest('.cart-item');
+            if (!itemElement) return;
+
+            const productId = parseInt(itemElement.dataset.productId);
+            const input = itemElement.querySelector('.quantity-value');
+            let quantity = parseInt(input.value);
+
+            // Botão de remover item
+            if (e.target.closest('.remove-item-btn')) {
+                console.log(`Clique no botão REMOVER detectado. Produto ID: ${productId}`);
+                
+                // Animação de remoção
+                itemElement.style.transition = 'opacity 0.5s ease';
+                itemElement.style.opacity = '0';
+
+                setTimeout(() => {
+                    callApi('RemoveFromCart', productId)
+                        .then(res => {
+                             if (!res.ok) { throw new Error(`HTTP error! status: ${res.status}`); }
+                             return res.json();
+                        })
+                        .then(data => {
+                            console.log("Resposta da API (RemoveFromCart):", data);
+                            if (data.success) {
+                                itemElement.remove();
+                                updateCartSummary();
+                            } else {
+                                alert('Erro ao remover o item do carrinho: ' + (data.message || ''));
+                                itemElement.style.opacity = '1'; // Restaura a opacidade se falhar
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Fetch error:", error);
+                            alert('Ocorreu um erro de comunicação ao remover o item.');
+                            itemElement.style.opacity = '1';
+                        });
+                }, 500); // Espera a animação terminar
+            }
+           
+            else if (e.target.closest('.quantity-plus')) {
+                quantity++;
+                input.value = quantity;
+                callApi('UpdateQuantity', productId, quantity).then(() => updateCartSummary());
+            }
+            else if (e.target.closest('.quantity-minus') && quantity > 1) {
+                quantity--;
+                input.value = quantity;
+                callApi('UpdateQuantity', productId, quantity).then(() => updateCartSummary());
+            }
+        });
+    }
+
+ 
+    const clearCartBtn = document.getElementById('clear-cart-btn');
+    if (clearCartBtn) {
+        clearCartBtn.addEventListener('click', function() {
+            if(confirm("Tem certeza que deseja limpar o carrinho?")){
+                fetch('@Url.Action("ClearCart", "Cart")', { method: 'POST' })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            window.location.reload();
+                        }
+                    });
+            }
+        });
+    }
+});
+</script>
+}
