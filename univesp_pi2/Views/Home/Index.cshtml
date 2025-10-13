@@ -18,19 +18,57 @@
 
 <section class="container py-5">
     <div class="text-center mb-5">
-        <h2 class="h1 fw-bold">Categorias</h2>
-        <p class="text-muted mt-2">Encontre rapidamente o que precisa para seu veículo</p>
+        <h2 class="fw-bold">Categorias</h2>
+        <p class="text-muted">Encontre rapidamente o que precisa para seu veículo</p>
     </div>
-    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3">
-        @foreach (var category in Model.Categories)
-        {
-            <div class="col">
-                <a href="@Url.Action("Index", "Catalogo", new { CurrentCategory = category.Id })" class="category-card card text-decoration-none text-dark shadow-sm h-100 d-flex flex-column justify-content-center align-items-center p-3">
-                    <i data-lucide="@category.Icon" class="mb-2"></i>
-                    <span class="fw-semibold">@category.Name</span>
-                </a>
+
+    <div class="d-flex justify-content-center flex-wrap gap-3">
+        
+        <a href="@Url.Action("Index", "Catalogo", new { CurrentCategory = "Elétrica" })" class="text-decoration-none col-lg-2 col-md-4 col-sm-6">
+            <div class="card category-card p-3">
+                <div class="card-body text-center">
+                    <i data-lucide="zap" class="text-primary mb-2"></i>
+                    <h6 class="fw-semibold mb-0">Elétrica</h6>
+                </div>
             </div>
-        }
+        </a>
+
+        <a href="@Url.Action("Index", "Catalogo", new { CurrentCategory = "Freios" })" class="text-decoration-none col-lg-2 col-md-4 col-sm-6">
+            <div class="card category-card p-3">
+                <div class="card-body text-center">
+                    <i data-lucide="disc-3" class="text-primary mb-2"></i>
+                    <h6 class="fw-semibold mb-0">Freios</h6>
+                </div>
+            </div>
+        </a>
+        
+        <a href="@Url.Action("Index", "Catalogo", new { CurrentCategory = "Motor" })" class="text-decoration-none col-lg-2 col-md-4 col-sm-6">
+            <div class="card category-card p-3">
+                <div class="card-body text-center">
+                    <i data-lucide="settings" class="text-primary mb-2"></i>
+                    <h6 class="fw-semibold mb-0">Motor</h6>
+                </div>
+            </div>
+        </a>
+
+        <a href="@Url.Action("Index", "Catalogo", new { CurrentCategory = "Fluidos" })" class="text-decoration-none col-lg-2 col-md-4 col-sm-6">
+            <div class="card category-card p-3">
+                <div class="card-body text-center">
+                    <i data-lucide="flask-conical" class="text-primary mb-2"></i>
+                    <h6 class="fw-semibold mb-0">Fluidos</h6>
+                </div>
+            </div>
+        </a>
+        
+        <a href="@Url.Action("Index", "Catalogo", new { CurrentCategory = "Suspensão" })" class="text-decoration-none col-lg-2 col-md-4 col-sm-6">
+            <div class="card category-card p-3">
+                <div class="card-body text-center">
+                    <i data-lucide="wrench" class="text-primary mb-2"></i>
+                    <h6 class="fw-semibold mb-0">Suspensão</h6>
+                </div>
+            </div>
+        </a>
+        
     </div>
 </section>
 

@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using univesp_pi2.Models
+@using univesp_pi2.Helpers
+
+@{
+   
+    var userName = Context.Session.GetString("UserName");
+    var cartItems = Context.Session.Get<List<CartItemViewModel>>("Cart");
+    var cartItemCount = cartItems?.Count ?? 0;
+}
+
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8" />
@@ -8,8 +18,56 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     @await RenderSectionAsync("Styles", required: false)
+    <style>
+        header.sticky-top {
+            z-index: 1030 !important;
+        }
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: none; 
+            align-items: center;
+            justify-content: center;
+            z-index: 1060; 
+            backdrop-filter: blur(5px);
+        }
+        .popup-card {
+            background-color: white;
+            padding: 2.5rem;
+            text-align: center;
+            border-radius: var(--bs-border-radius);
+            width: 90%;
+            max-width: 400px;
+        }
+    </style>
 </head>
 <body>
+    <div id="logout-popup" class="popup-overlay">
+        <div class="popup-card">
+            <h4 class="fw-bold">Confirmar Saída</h4>
+            <p class="text-muted">Você tem certeza que deseja sair da sua conta?</p>
+            <div class="d-flex justify-content-center gap-2 mt-4">
+                <button id="logout-cancel-btn" type="button" class="btn btn-secondary">Cancelar</button>
+                <a href="@Url.Action("Logout", "Login")" class="btn btn-danger">Sim, sair</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="login-required-popup" class="popup-overlay">
+        <div class="popup-card">
+            <h4 class="fw-bold">Login Necessário</h4>
+            <p class="text-muted">Você precisa estar logado para acessar o carrinho de compras.</p>
+            <div class="d-flex justify-content-center gap-2 mt-4">
+                 <button id="login-cancel-btn" type="button" class="btn btn-secondary">Fechar</button>
+                 <a href="@Url.Action("Index", "Login")" class="btn btn-primary">Fazer Login</a>
+            </div>
+        </div>
+    </div>
+
     @if (ViewData["Title"]?.ToString() != "Login")
     {
         <header class="bg-dark-blue-primary shadow-sm sticky-top">
@@ -30,11 +88,36 @@
                     </form>
                 </div>
                 <div class="d-flex align-items-center">
-                    <a href="@Url.Action("Index", "Login")" class="d-flex align-items-center text-white-50 text-decoration-none me-4">
-                        <i data-lucide="user" class="me-2"></i>
-                        <span class="fw-semibold d-none d-md-inline">Entrar</span>
-                    </a>
-                    <a href="@Url.Action("Index", "Cart")" class="text-white-50"><i data-lucide="shopping-cart"></i></a>
+                    @if (!string.IsNullOrEmpty(userName))
+                    {
+                        <a href="@Url.Action("Index", "Account")" class="d-flex align-items-center text-white text-decoration-none me-4">
+                            <i data-lucide="user" class="me-2"></i>
+                            <span class="fw-semibold d-none d-md-inline">Olá, @userName</span>
+                        </a>
+                        <button id="logout-btn" type="button" class="btn btn-sm btn-outline-light me-4" title="Sair da conta">
+                            <i data-lucide="log-out"></i>
+                        </button>
+                        <a href="@Url.Action("Index", "Cart")" class="text-white-50 text-decoration-none position-relative">
+                            <i data-lucide="shopping-cart"></i>
+                            @if (cartItemCount > 0)
+                            {
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    @cartItemCount
+                                    <span class="visually-hidden">itens no carrinho</span>
+                                </span>
+                            }
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Index", "Login")" class="d-flex align-items-center text-white-50 text-decoration-none me-4">
+                            <i data-lucide="user" class="me-2"></i>
+                            <span class="fw-semibold d-none d-md-inline">Entrar</span>
+                        </a>
+                        <a href="#" id="cart-logged-out" class="text-white-50 text-decoration-none position-relative">
+                            <i data-lucide="shopping-cart"></i>
+                        </a>
+                    }
                 </div>
             </div>
             <hr class="text-white-50 my-0" style="opacity: 0.1;" />
@@ -58,18 +141,61 @@
             </nav>
         </header>
     }
+    
     <div class="main-content">
-        <main role="main">
+        <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
+
     @if (ViewData["Title"]?.ToString() != "Login")
     {
         <partial name="_Footer" />
     }
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script>lucide.createIcons();</script>
+    <script>
+        lucide.createIcons();
+    </script>
+    
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+           
+            const logoutBtn = document.getElementById('logout-btn');
+            const logoutPopup = document.getElementById('logout-popup');
+            const logoutCancelBtn = document.getElementById('logout-cancel-btn');
+
+            if(logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    logoutPopup.style.display = 'flex';
+                });
+            }
+            if(logoutCancelBtn) {
+                 logoutCancelBtn.addEventListener('click', () => {
+                    logoutPopup.style.display = 'none';
+                });
+            }
+
+           
+            const cartLoggedOutLink = document.getElementById('cart-logged-out');
+            const loginPopup = document.getElementById('login-required-popup');
+            const loginCancelBtn = document.getElementById('login-cancel-btn');
+
+            if(cartLoggedOutLink) {
+                cartLoggedOutLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    loginPopup.style.display = 'flex';
+                });
+            }
+            if(loginCancelBtn) {
+                 loginCancelBtn.addEventListener('click', () => {
+                    loginPopup.style.display = 'none';
+                });
+            }
+        });
+    </script>
 </body>
 </html>

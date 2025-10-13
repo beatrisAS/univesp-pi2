@@ -1,0 +1,68 @@
+@model OrderDetailsViewModel
+@{
+    ViewData["Title"] = $"Detalhes do Pedido {Model.OrderId}";
+}
+
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 fw-bold">Detalhes do Pedido</h1>
+            <p class="text-muted">Pedido <span class="fw-semibold">#@Model.OrderId</span></p>
+        </div>
+        <a href="@Url.Action("Index", "Account")" class="btn btn-outline-secondary"><i data-lucide="arrow-left" class="me-2"></i>Voltar para Minha Conta</a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header fw-bold">
+                    Itens do Pedido
+                </div>
+                <div class="card-body">
+                    @if(Model.Items.Any())
+                    {
+                        foreach(var item in Model.Items)
+                        {
+                            <div class="d-flex justify-content-between align-items-center border-bottom py-3">
+                                <div>
+                                    <h6 class="mb-0">@item.Name</h6>
+                                    <small class="text-muted">Quantidade: @item.Quantity</small>
+                                </div>
+                                <span class="fw-semibold fs-5">@item.TotalPrice.ToString("C")</span>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>Não foi possível carregar os itens deste pedido.</p>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header fw-bold">Resumo</div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><strong>Data:</strong> @Model.OrderDate.ToString("dd/MM/yyyy")</li>
+                        <li><strong>Status:</strong> <span class="badge bg-success-subtle text-success-emphasis">@Model.Status</span></li>
+                    </ul>
+                    <hr />
+                    <h6><strong>Endereço de Entrega:</strong></h6>
+                    <address class="mb-0">
+                        @Model.ShippingAddress.Street<br>
+                        @Model.ShippingAddress.City - @Model.ShippingAddress.State<br>
+                        CEP: @Model.ShippingAddress.Cep
+                    </address>
+                    <hr>
+                    <div class="d-flex justify-content-between"><span>Subtotal:</span><span>@Model.Subtotal.ToString("C")</span></div>
+                    <div class="d-flex justify-content-between mb-2"><span>Frete:</span><span>@Model.ShippingCost.ToString("C")</span></div>
+                    <div class="d-flex justify-content-between fw-bold mt-2 border-top pt-2">
+                        <h5 class="mb-0">Total:</h5>
+                        <h5 class="mb-0 text-primary">@Model.Total.ToString("C")</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,336 @@
+@{
+    ViewData["Title"] = "Finalizar Compra";
+}
+
+<div id="success-popup-overlay" class="popup-overlay">
+    <div class="popup-card">
+        <div class="popup-icon-wrapper">
+            <i data-lucide="check" class="popup-icon"></i>
+        </div>
+        <h3 class="fw-bold mt-3">Compra Realizada!</h3>
+        <p class="text-muted">Seu pedido foi processado com sucesso. Em breve você receberá um e-mail com todos os detalhes.</p>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-primary mt-3">Voltar para a Home</a>
+    </div>
+</div>
+<div class="container py-5">
+    <h1 class="h2 fw-bold mb-4">Finalizar Compra</h1>
+
+    <div class="row g-5">
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4" id="checkout-progress">
+                <div class="step active" data-step="1">
+                    <div class="step-icon"><i data-lucide="map-pin"></i></div>
+                    <span class="fw-semibold">Endereço</span>
+                </div>
+                <div class="flex-grow-1 mx-3"><hr></div>
+                <div class="step" data-step="2">
+                    <div class="step-icon"><i data-lucide="truck"></i></div>
+                    <span>Entrega</span>
+                </div>
+                <div class="flex-grow-1 mx-3"><hr></div>
+                <div class="step" data-step="3">
+                    <div class="step-icon"><i data-lucide="credit-card"></i></div>
+                    <span>Pagamento</span>
+                </div>
+            </div>
+
+            <div id="address-step" class="checkout-step">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3">Endereço de Entrega</h5>
+                        <div class="row g-3">
+                            <div class="col-md-5">
+                                <label for="cep" class="form-label">CEP</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="cep" placeholder="00000-000" maxlength="9">
+                                    <button class="btn btn-outline-secondary" type="button" id="cep-search-btn">Buscar</button>
+                                </div>
+                                <div id="cep-error" class="invalid-feedback d-none">CEP inválido ou não encontrado.</div>
+                            </div>
+                            <div class="col-md-7">
+                                <label for="address" class="form-label">Endereço</label>
+                                <input type="text" class="form-control" id="address" placeholder="Rua, avenida...">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="number" class="form-label">Número</label>
+                                <input type="text" class="form-control" id="number">
+                            </div>
+                             <div class="col-md-8">
+                                <label for="complement" class="form-label">Complemento</label>
+                                <input type="text" class="form-control" id="complement" placeholder="Apt, bloco, casa...">
+                            </div>
+                            <div class="col-12">
+                                <label for="neighborhood" class="form-label">Bairro</label>
+                                <input type="text" class="form-control" id="neighborhood">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="city" class="form-label">Cidade</label>
+                                <input type="text" class="form-control" id="city">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="state" class="form-label">Estado</label>
+                                <input type="text" class="form-control" id="state">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end mt-4">
+                    <button class="btn btn-primary" onclick="navigateToStep(2)">Continuar para Entrega</button>
+                </div>
+            </div>
+
+            <div id="delivery-step" class="checkout-step d-none">
+                <div class="card">
+                    <div class="card-body p-4">
+                         <h5 class="fw-bold mb-3">Opções de Entrega</h5>
+                         <div class="list-group">
+                             <label class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                 <div>
+                                     <input class="form-check-input me-2" type="radio" name="deliveryOption" value="standard" checked>
+                                     <span class="fw-semibold">Entrega Padrão</span>
+                                     <small class="d-block text-muted">5-8 dias úteis</small>
+                                 </div>
+                                 <span class="badge bg-success-subtle text-success-emphasis rounded-pill">Grátis</span>
+                             </label>
+                              <label class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                 <div>
+                                     <input class="form-check-input me-2" type="radio" name="deliveryOption" value="express">
+                                     <span class="fw-semibold">Entrega Expressa</span>
+                                     <small class="d-block text-muted">2-3 dias úteis</small>
+                                 </div>
+                                 <span class="fw-bold">R$ 49,90</span>
+                             </label>
+                         </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                    <button class="btn btn-outline-secondary" onclick="navigateToStep(1)">Voltar</button>
+                    <button class="btn btn-primary" onclick="navigateToStep(3)">Continuar para Pagamento</button>
+                </div>
+            </div>
+
+            <div id="payment-step" class="checkout-step d-none">
+                 <div class="card">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3">Forma de Pagamento</h5>
+                        <div class="list-group" id="payment-methods">
+                             <label class="list-group-item list-group-item-action">
+                                 <input class="form-check-input me-2" type="radio" name="paymentMethod" value="card" checked> Cartão de Crédito
+                             </label>
+                             <label class="list-group-item list-group-item-action">
+                                 <input class="form-check-input me-2" type="radio" name="paymentMethod" value="pix"> PIX - 5% de desconto
+                             </label>
+                              <label class="list-group-item list-group-item-action">
+                                 <input class="form-check-input me-2" type="radio" name="paymentMethod" value="boleto"> Boleto Bancário
+                             </label>
+                        </div>
+                        
+                         <div id="card-details" class="mt-4">
+                             <div class="row g-3">
+                                <div class="col-12"><input type="text" class="form-control" placeholder="Número do Cartão"></div>
+                                <div class="col-12"><input type="text" class="form-control" placeholder="Nome do Titular"></div>
+                                <div class="col-md-6"><input type="text" class="form-control" placeholder="Validade (MM/AA)"></div>
+                                <div class="col-md-6"><input type="text" class="form-control" placeholder="CVV"></div>
+                             </div>
+                         </div>
+
+                         <div id="pix-details" class="mt-4 text-center d-none">
+                            <p>Pague com PIX para finalizar sua compra. Use o QR Code ou a chave abaixo.</p>
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=chave-pix-aleatoria" alt="QR Code PIX" class="img-fluid mb-2">
+                            <p class="small text-muted"><strong>Chave:</strong> 123e4567-e89b-12d3-a456-426614174000</p>
+                         </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between mt-4">
+                    <button class="btn btn-outline-secondary" onclick="navigateToStep(2)">Voltar</button>
+                    <button id="finalize-order-btn" type="button" class="btn btn-success btn-lg"><i data-lucide="lock" class="me-2" style="width:16px;"></i> Finalizar Pedido</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="sticky-top" style="top: 110px;">
+                <div class="card">
+                    <div class="card-body">
+                         <h5 class="card-title fw-bold mb-4">Resumo do Pedido</h5>
+                         
+                         <div class="d-flex align-items-center border-bottom pb-3 mb-3">
+                             <img src="/images/Pastilha de Freio Dianteira.png" class="rounded me-3" style="width: 60px;" alt="Produto">
+                             <div>
+                                 <h6 class="mb-0 small">Pastilha de Freio Dianteira</h6>
+                                 <p class="text-muted small mb-0">Qtd: 3</p>
+                                 <p class="fw-bold mb-0">R$ 269,70</p>
+                             </div>
+                         </div>
+
+                        <div class="d-flex justify-content-between mb-2 text-muted">
+                            <span>Subtotal</span>
+                            <span>R$ 269,70</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-3 text-muted">
+                            <span>Frete</span>
+                            <span class="text-success">Grátis</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between fw-bold h5 mb-4">
+                            <span>Total</span>
+                            <span>R$ 269,70</span>
+                        </div>
+                        <ul class="list-unstyled text-muted small">
+                           <li class="d-flex align-items-center mb-2"><i data-lucide="shield-check" class="text-success me-2"></i> Seus dados estão protegidos</li>
+                           <li class="d-flex align-items-center mb-2"><i data-lucide="truck" class="text-success me-2"></i> Entrega garantida</li>
+                           <li class="d-flex align-items-center"><i data-lucide="refresh-cw" class="text-success me-2"></i> Troca em até 30 dias</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+<style>
+    .popup-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+        display: none; align-items: center; justify-content: center;
+        z-index: 1050; backdrop-filter: blur(5px);
+    }
+    .popup-card {
+        background-color: white; padding: 2.5rem; border-radius: var(--bs-border-radius);
+        text-align: center; width: 90%; max-width: 450px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        transform: scale(0.95); opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .popup-overlay.visible .popup-card { transform: scale(1); opacity: 1; }
+    .popup-icon-wrapper {
+        width: 80px; height: 80px; margin: 0 auto;
+        background-color: #198754; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .popup-icon { color: white; width: 40px; height: 40px; }
+    .step { text-align: center; color: var(--text-muted); }
+    .step.active { color: var(--brand-orange); }
+    .step.active .step-icon { background-color: var(--brand-orange); color: white; }
+    .step-icon {
+        width: 40px; height: 40px; border-radius: 50%; background-color: #e5e7eb;
+        color: #6b7280; display: inline-flex; align-items: center;
+        justify-content: center; margin-bottom: 0.5rem; transition: all 0.2s ease;
+    }
+</style>
+}
+
+@section Scripts {
+<script>
+    function navigateToStep(stepNumber) {
+        document.querySelectorAll('.checkout-step').forEach(step => step.classList.add('d-none'));
+        document.getElementById(getStepId(stepNumber)).classList.remove('d-none');
+        const progressSteps = document.querySelectorAll('#checkout-progress .step');
+        progressSteps.forEach((step, index) => {
+            step.classList.toggle('active', (index + 1) <= stepNumber);
+        });
+    }
+
+    function getStepId(stepNumber) {
+        if (stepNumber === 1) return 'address-step';
+        if (stepNumber === 2) return 'delivery-step';
+        if (stepNumber === 3) return 'payment-step';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const cepInput = document.getElementById('cep');
+        const searchBtn = document.getElementById('cep-search-btn');
+        const cepError = document.getElementById('cep-error');
+
+        const handleCepLookup = () => {
+            cepInput.classList.remove('is-invalid');
+            cepError.classList.add('d-none');
+            let cep = cepInput.value.replace(/\D/g, '');
+
+            if (cep.length !== 8) {
+                cepInput.classList.add('is-invalid');
+                cepError.classList.remove('d-none');
+                return;
+            }
+
+            toggleAddressFields(true, 'Buscando...');
+
+            fetch(`https://viacep.com.br/ws/${cep}/json/`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.erro) {
+                        cepInput.classList.add('is-invalid');
+                        cepError.classList.remove('d-none');
+                        clearAddressFields();
+                    } else {
+                        document.getElementById('address').value = data.logradouro;
+                        document.getElementById('neighborhood').value = data.bairro;
+                        document.getElementById('city').value = data.localidade;
+                        document.getElementById('state').value = data.uf;
+                        document.getElementById('number').focus();
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar CEP:', error);
+                    alert('Não foi possível buscar o CEP. Verifique sua conexão.');
+                })
+                .finally(() => {
+                    toggleAddressFields(false, '');
+                });
+        };
+
+        cepInput.addEventListener('blur', handleCepLookup);
+        searchBtn.addEventListener('click', handleCepLookup);
+
+        function toggleAddressFields(disabled, placeholderText) {
+            const fields = ['address', 'neighborhood', 'city', 'state'];
+            fields.forEach(id => {
+                const field = document.getElementById(id);
+                field.disabled = disabled;
+                field.placeholder = disabled ? placeholderText : '';
+            });
+        }
+        
+        function clearAddressFields() {
+             const fields = ['address', 'neighborhood', 'city', 'state'];
+             fields.forEach(id => {
+                document.getElementById(id).value = '';
+             });
+        }
+
+        const finalizeBtn = document.getElementById('finalize-order-btn');
+        const popupOverlay = document.getElementById('success-popup-overlay');
+
+        finalizeBtn.addEventListener('click', () => {
+            finalizeBtn.disabled = true;
+            finalizeBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processando...';
+
+            fetch('@Url.Action("FinalizeOrder", "Checkout")', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    popupOverlay.style.display = 'flex';
+                    setTimeout(() => {
+                        popupOverlay.classList.add('visible');
+                        lucide.createIcons();
+                    }, 10);
+                } else {
+                    alert('Ocorreu um erro ao finalizar o pedido.');
+                    finalizeBtn.disabled = false;
+                    finalizeBtn.innerHTML = '<i data-lucide="lock" class="me-2" style="width:16px;"></i> Finalizar Pedido';
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Ocorreu um erro de comunicação. Tente novamente.');
+                finalizeBtn.disabled = false;
+                finalizeBtn.innerHTML = '<i data-lucide="lock" class="me-2" style="width:16px;"></i> Finalizar Pedido';
+            });
+        });
+    });
+</script>
+}

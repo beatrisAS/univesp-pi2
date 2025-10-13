@@ -6,13 +6,14 @@
 <div class="container py-5">
     <nav aria-label="breadcrumb" class="mb-4">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
-            <li class="breadcrumb-item"><a asp-controller="Catalogo" asp-action="Index">Catálogo</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Home</a></li>
+            <li class="breadcrumb-item"><a href="@Url.Action("Index", "Catalogo")">Catálogo</a></li>
             <li class="breadcrumb-item active" aria-current="page">@Model.Product.Name</li>
         </ol>
     </nav>
     <div class="row g-5">
         <div class="col-lg-6">
+   
             <div class="mb-3">
                 <img src="@Model.Product.ImageUrl" alt="@Model.Product.Name" class="img-fluid rounded shadow-sm border product-main-image" id="main-product-image">
             </div>
@@ -36,23 +37,29 @@
             </div>
             <p class="product-price display-5 fw-bold my-4">@Model.Product.FinalPrice.ToString("C")</p>
             <p class="text-muted">ou 3x de @((Model.Product.FinalPrice / 3).ToString("C")) sem juros</p>
-            <div class="d-flex align-items-center my-4">
-                <label class="form-label me-3 mb-0 fw-semibold">Quantidade:</label>
-                <div class="quantity-input">
-                    <button class="btn btn-outline-secondary btn-sm" type="button">-</button>
-                    <input type="text" class="form-control form-control-sm text-center" value="1">
-                    <button class="btn btn-outline-secondary btn-sm" type="button">+</button>
+            
+            <form action="@Url.Action("AddToCart", "Cart")" method="post">
+                <input type="hidden" name="productId" value="@Model.Product.Id" />
+
+                <div class="d-flex align-items-center my-4">
+                    <label for="quantity-input-value" class="form-label me-3 mb-0 fw-semibold">Quantidade:</label>
+                    <div class="quantity-input">
+                        <button class="btn btn-outline-secondary btn-sm" type="button" id="quantity-minus">-</button>
+                        <input type="text" class="form-control form-control-sm text-center" value="1" id="quantity-input-value" name="quantity" readonly>
+                        <button class="btn btn-outline-secondary btn-sm" type="button" id="quantity-plus">+</button>
+                    </div>
                 </div>
+
+                <div class="d-grid gap-2 d-sm-flex">
+                    <button type="submit" class="btn btn-primary btn-lg flex-grow-1" disabled="@(!Model.Product.IsInStock)">
+                        <i data-lucide="shopping-cart" class="me-2"></i>
+                        @if (Model.Product.IsInStock) { <text>Adicionar ao Carrinho</text> } else { <text>Indisponível</text> }
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-lg"><i data-lucide="heart"></i></button>
+                    <button type="button" class="btn btn-outline-secondary btn-lg"><i data-lucide="share-2"></i></button>
+                </div>
+            </form>
             </div>
-            <div class="d-grid gap-2 d-sm-flex">
-                <button class="btn btn-primary btn-lg flex-grow-1" disabled="@(!Model.Product.IsInStock)">
-                    <i data-lucide="shopping-cart" class="me-2"></i>
-                    @if (Model.Product.IsInStock) { <text>Adicionar ao Carrinho</text> } else { <text>Indisponível</text> }
-                </button>
-                <button class="btn btn-outline-secondary btn-lg"><i data-lucide="heart"></i></button>
-                <button class="btn btn-outline-secondary btn-lg"><i data-lucide="share-2"></i></button>
-            </div>
-        </div>
     </div>
     
     <div class="mt-5">
@@ -64,6 +71,7 @@
                     <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#reviews-pane" type="button">Avaliações (@Model.Reviews.Count)</button></li>
                 </ul>
             </div>
+ 
             <div class="card-body p-4">
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="description-pane">
@@ -111,5 +119,23 @@
             });
             thumbnail.classList.add('active');
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const minusButton = document.getElementById('quantity-minus');
+            const plusButton = document.getElementById('quantity-plus');
+            const inputField = document.getElementById('quantity-input-value');
+
+            minusButton.addEventListener('click', function() {
+                let currentValue = parseInt(inputField.value);
+                if (currentValue > 1) {
+                    inputField.value = currentValue - 1;
+                }
+            });
+
+            plusButton.addEventListener('click', function() {
+                let currentValue = parseInt(inputField.value);
+                inputField.value = currentValue + 1;
+            });
+        });
     </script>
 }
