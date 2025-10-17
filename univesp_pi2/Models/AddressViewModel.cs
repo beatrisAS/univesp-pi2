@@ -10,6 +10,6 @@ namespace univesp_pi2.Models
         public string City { get; set; } = string.Empty;
         public string State { get; set; } = string.Empty;
         public string Cep { get; set; } = string.Empty;
-        public bool IsPrimary { get; set; }
+        public bool IsPrimary { get; set; } = false;
     }
 }

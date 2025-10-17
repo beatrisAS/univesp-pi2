@@ -15,7 +15,6 @@
                     <th>E-mail</th>
                     <th>Data de Cadastro</th>
                     <th class="text-center">Total de Pedidos</th>
-                    <th class="text-end">Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,10 +30,6 @@
                         <td>@client.JoinDate.ToString("dd/MM/yyyy")</td>
                         <td class="text-center">
                             <span class="badge bg-light text-dark border">@client.TotalOrders</span>
-                        </td>
-                        <td class="text-end">
-                            <a href="#" class="text-muted me-2" title="Ver"><i data-lucide="eye"></i></a>
-                            <a href="#" class="text-muted" title="Editar"><i data-lucide="edit"></i></a>
                         </td>
                     </tr>
                 }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace univesp_pi2.Models
 {

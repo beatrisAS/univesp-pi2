@@ -1,45 +1,63 @@
-<footer class="bg-dark-blue-primary">
-    <div class="container py-5">
-        <div class="row g-5">
-            <div class="col-lg-3 col-md-6">
-                <div class="d-flex align-items-center mb-3">
-                    <div class="bg-brand-orange p-2 rounded d-flex align-items-center justify-content-center">
+<footer class="bg-dark-blue-primary text-white pt-5 pb-4">
+    <div class="container">
+        <div class="row gy-4">
+
+            <div class="col-lg-4 col-md-6">
+                <a href="@Url.Action("Index", "Home")" class="text-decoration-none d-flex align-items-center mb-3">
+                    <div class="bg-brand-orange p-2 rounded d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
                         <i data-lucide="wrench" class="text-white"></i>
                     </div>
-                    <h5 class="ms-3 mb-0 text-white">ML3 Peças Automotivas</h5>
-                </div>
-                <p class="small text-white-50">Sua loja online de autopeças com os melhores preços e qualidade garantida.</p>
-                <div class="mt-4">
-                    <a href="#" class="text-white-50 me-3"><i data-lucide="facebook"></i></a>
-                    <a href="#" class="text-white-50 me-3"><i data-lucide="instagram"></i></a>
-                    <a href="#" class="text-white-50"><i data-lucide="twitter"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h5 class="fw-bold text-white mb-4">Links Úteis</h5>
-                <ul class="list-unstyled">
-                    <li class="mb-2"><a href="@Url.Action("Index", "Catalogo")" class="text-white-50 text-decoration-none">Catálogo de Produtos</a></li>
-                    <li class="mb-2"><a href="@Url.Action("Index", "Catalogo", new { CurrentCategory = "Ofertas" })" class="text-white-50 text-decoration-none">Ofertas Especiais</a></li>
-                    <li class="mb-2"><a href="@Url.Action("Index", "Account")" class="text-white-50 text-decoration-none">Minha Conta</a></li>
-                    <li class="mb-2"><a href="@Url.Action("Index", "Support")" class="text-white-50 text-decoration-none">Suporte ao Cliente</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h5 class="fw-bold text-white mb-4">Atendimento</h5>
-                <ul class="list-unstyled small text-white-50">
-                    <li class="d-flex align-items-center mb-2"><i data-lucide="phone" class="me-2" style="width:16px;"></i> (11) 3000-0000</li>
-                    <li class="d-flex align-items-center mb-2"><i data-lucide="mail" class="me-2" style="width:16px;"></i> contato@ml3pecas.com.br</li>
-                </ul>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h5 class="fw-bold text-white mb-4">Newsletter</h5>
-                <form>
-                    <div class="input-group">
-                        <input type="email" class="form-control" placeholder="Seu melhor e-mail">
-                        <button class="btn btn-primary" type="button">Cadastrar</button>
+                    <div class="ms-3">
+                        <h5 class="mb-0 fw-bold text-white">ML3 Peças Automotivas</h5>
+                        <p class="small text-white-50 mb-0">Sua oficina online</p>
                     </div>
-                </form>
+                </a>
+                <p class="text-white-50 pe-lg-5">
+                    Sua loja online de autopeças com os melhores preços e qualidade garantida.
+                </p>
             </div>
+
+            <div class="col-lg-2 col-md-6">
+                <h6 class="fw-bold mb-3">Navegação</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="@Url.Action("Index", "Home")" class="text-white-50 text-decoration-none">Home</a></li>
+                    <li class="mb-2"><a href="@Url.Action("Index", "Catalogo")" class="text-white-50 text-decoration-none">Catálogo</a></li>
+                    <li class="mb-2"><a href="@Url.Action("Index", "Cart")" class="text-white-50 text-decoration-none">Carrinho</a></li>
+                    <li><a href="@Url.Action("Index", "Account")" class="text-white-50 text-decoration-none">Minha Conta</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <h6 class="fw-bold mb-3">Categorias Populares</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="@Url.Action("Index", "Catalogo", new { CurrentCategory = "Freios" })" class="text-white-50 text-decoration-none">Freios</a></li>
+                    <li class="mb-2"><a href="@Url.Action("Index", "Catalogo", new { CurrentCategory = "Motor" })" class="text-white-50 text-decoration-none">Motor</a></li>
+                    <li class="mb-2"><a href="@Url.Action("Index", "Catalogo", new { CurrentCategory = "Suspensão" })" class="text-white-50 text-decoration-none">Suspensão</a></li>
+                    <li><a href="@Url.Action("Index", "Catalogo", new { CurrentCategory = "Elétrica" })" class="text-white-50 text-decoration-none">Elétrica</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-6">
+                <h6 class="fw-bold mb-3">Formas de Pagamento</h6>
+                <ul class="list-unstyled text-white-50">
+                    <li class="mb-2 d-flex align-items-center">
+                        <i data-lucide="credit-card" class="me-2"></i> Cartões de Crédito
+                    </li>
+                    <li class="mb-2 d-flex align-items-center">
+                        <i data-lucide="barcode" class="me-2"></i> Boleto Bancário
+                    </li>
+                    <li class="mb-2 d-flex align-items-center">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_do_PIX.png" style="height: 18px;" class="me-2" alt="Logo Pix"/> PIX
+                    </li>
+                </ul>
+                <small class="text-white-50">Aceitamos Visa, Mastercard, Elo e mais.</small>
+            </div>
+        </div>
+
+        <hr class="my-4" style="opacity: 0.1;">
+
+        <div class="text-center text-white-50 small">
+            &copy; @DateTime.Now.Year ML3 Peças Automotivas. Todos os direitos reservados. CNPJ: 00.000.000/0001-00
         </div>
     </div>
 </footer>

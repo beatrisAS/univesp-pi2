@@ -401,3 +401,178 @@ header .form-control:focus, footer .form-control:focus {
     background-color: #fee2e2;
     color: #ef4444;         
 }
+
+.cart-badge {
+    background-color: var(--brand-orange) !important;
+    color: #ffffff !important;
+    font-size: 0.7rem;
+    border: 2px solid var(--dark-blue-primary); 
+}
+
+
+.main-content {
+    background-color: var(--light-gray);
+}
+
+.form-control, .form-select {
+    background-color: var(--input-bg-light);
+    border: 1px solid var(--input-bg-light);
+    height: 50px;
+    font-weight: 500;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #ffffff;
+    border-color: var(--brand-orange);
+    box-shadow: 0 0 0 0.2rem rgba(249, 115, 22, 0.2);
+}
+
+
+.summary-card {
+    position: sticky;
+    top: 2rem; 
+}
+
+.summary-card .card-title {
+    font-size: 1.25rem;
+}
+
+.summary-card hr {
+    margin: 1.5rem 0;
+    color: var(--border-color);
+}
+
+.summary-card .info-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.summary-card .info-list li {
+    display: flex;
+    align-items: center;
+    color: var(--text-muted);
+}
+
+.summary-card .info-list i {
+    width: 16px;
+    height: 16px;
+    margin-right: 0.75rem;
+    color: var(--text-dark);
+}
+
+.cart-badge {
+    background-color: var(--brand-orange) !important;
+    color: #ffffff !important;
+    font-size: 0.7rem;
+    border: 2px solid var(--dark-blue-primary); 
+}
+
+
+.main-content {
+    background-color: #f8f9fa; 
+}
+.form-control, .form-select {
+    background-color: #f3f4f6;
+    border: 1px solid #f3f4f6;
+    height: 48px;
+    font-weight: 500;
+}
+.form-control:focus, .form-select:focus {
+    background-color: #ffffff;
+    border-color: var(--brand-orange);
+    box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+}
+
+
+.cart-item-card {
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: var(--bs-border-radius);
+    padding: 1.5rem;
+}
+.cart-item-card .quantity-input {
+    max-width: 120px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--bs-border-radius);
+}
+.cart-item-card .quantity-input .form-control {
+    height: 40px;
+    background-color: #fff;
+}
+.cart-item-card .remove-item-btn {
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    font-weight: 600;
+}
+.cart-item-card .remove-item-btn:hover {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+
+.summary-card {
+    position: sticky;
+    top: 110px; 
+}
+.summary-card .info-list {
+    list-style: none;
+    padding-left: 0;
+}
+.summary-card .info-list li {
+    display: flex;
+    align-items: center;
+}
+.summary-card .info-list i {
+    width: 16px;
+    height: 16px;
+    margin-right: 0.75rem;
+}
+
+
+.checkout-progress-bar {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+}
+.step { color: var(--text-muted); font-weight: 500; }
+.step-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    background-color: var(--border-color); color: var(--text-muted);
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 0.5rem; transition: all 0.3s ease;
+    border: 3px solid var(--border-color);
+}
+.step hr { border-top: 2px solid var(--border-color); }
+.step.active { color: var(--brand-orange); font-weight: 700; }
+.step.active .step-icon {
+    border-color: var(--brand-orange); background-color: #fff; color: var(--brand-orange);
+}
+.step.completed .step-icon {
+    background-color: var(--brand-orange); border-color: var(--brand-orange); color: #fff;
+}
+.step.completed .step-icon i { display: block; } 
+.step.completed .step-icon span { display: none; } 
+.step.completed + .flex-grow-1 hr { border-color: var(--brand-orange); }
+
+
+.selectable-option {
+    border: 2px solid var(--border-color);
+    border-radius: var(--bs-border-radius);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+.selectable-option:hover { border-color: #adb5bd; }
+.selectable-option input[type="radio"] { display: none; }
+.selectable-option input[type="radio"]:checked + div {
+    border-color: var(--brand-orange);
+    box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.25);
+}
+
+
+.btn-success {
+    background-color: #16a34a; border-color: #16a34a;
+}
+.btn-success:hover {
+    background-color: #15803d; border-color: #15803d;
+}
