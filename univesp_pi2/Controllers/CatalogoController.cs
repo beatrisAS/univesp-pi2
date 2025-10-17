@@ -1,74 +1,63 @@
 using Microsoft.AspNetCore.Mvc;
-using univesp_pi2.Areas.Admin.Models; 
 using univesp_pi2.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+
 namespace univesp_pi2.Controllers
 {
-    public class OrderController : Controller
+    public class CatalogoController : Controller
     {
-        public IActionResult Details(string id)
+        public IActionResult Index(CatalogViewModel model)
         {
+            var allProducts = GetProductsMock();
+            model.AvailableBrands = allProducts.Select(p => p.Brand).Distinct().OrderBy(b => b).ToList();
+
+            var filteredProducts = allProducts.AsEnumerable();
+
            
-            var sampleProduct1 = GetProductsMock().FirstOrDefault(p => p.Id == 1);
-            var sampleProduct2 = GetProductsMock().FirstOrDefault(p => p.Id == 2);
-
-            var items = new List<CartItemViewModel>();
-            if (sampleProduct1 != null)
+            if (!string.IsNullOrEmpty(model.CurrentCategory) && model.CurrentCategory != "Todos")
             {
-                items.Add(new CartItemViewModel { Name = sampleProduct1.Name, Quantity = 1, UnitPrice = sampleProduct1.FinalPrice });
+                filteredProducts = filteredProducts.Where(p => 
+                    p.Category.Equals(model.CurrentCategory, System.StringComparison.OrdinalIgnoreCase));
             }
-            if (sampleProduct2 != null)
-            {
-                items.Add(new CartItemViewModel { Name = sampleProduct2.Name, Quantity = 2, UnitPrice = sampleProduct2.FinalPrice });
-            }
-
-            var subtotal = items.Sum(i => i.TotalPrice);
-            var shipping = 25.00m;
-
-            var viewModel = new OrderDetailsViewModel
-            {
-                OrderId = id,
-                OrderDate = new DateTime(2025, 10, 5), 
-                Status = "Entregue",
-                ShippingAddress = new AddressViewModel 
-                { 
-                    Street = "Rua das Flores, 123", 
-                    City = "São Paulo", 
-                    State = "SP", 
-                    Cep = "01234-567" 
-                },
-                Items = items,
-                Subtotal = subtotal,
-                ShippingCost = shipping,
-                Total = subtotal + shipping
-            };
-
-            return View(viewModel);
-        }
-
-        [Area("Admin")]
-        public IActionResult Invoice(string orderId)
-        {
-            var viewModel = new InvoiceViewModel
-            {
-                OrderId = orderId,
-                OrderDate = new DateTime(2025, 10, 1),
-                SupplierName = "Bosch Brasil",
-                SupplierAddress = "Rua Exemplo, 123, Campinas, SP",
-                SupplierCnpj = "12.345.678/0001-99",
-                Items = new List<InvoiceItemViewModel>
-                {
-                    new InvoiceItemViewModel { ProductName = "Pastilha de Freio Dianteira", Quantity = 50, UnitPrice = 80.00m },
-                    new InvoiceItemViewModel { ProductName = "Vela de Ignição", Quantity = 100, UnitPrice = 25.00m }
-                }
-            };
-            ViewData["Title"] = $"Nota Fiscal {orderId}";
             
-            return View("~/Areas/Admin/Views/Order/Invoice.cshtml", viewModel);
+      
+            if (!string.IsNullOrEmpty(model.CurrentSearch))
+            {
+                string search = model.CurrentSearch.ToLower();
+                filteredProducts = filteredProducts.Where(p => 
+                    p.Name.ToLower().Contains(search) ||
+                    p.Code.ToLower().Contains(search) ||
+                    p.Brand.ToLower().Contains(search));
+            }
+
+           
+            if (model.SelectedBrands != null && model.SelectedBrands.Any())
+            {
+                filteredProducts = filteredProducts.Where(p => model.SelectedBrands.Contains(p.Brand));
+            }
+            
+      
+            if (model.InStockOnly)
+            {
+                filteredProducts = filteredProducts.Where(p => p.IsInStock);
+            }
+
+          
+            filteredProducts = filteredProducts.Where(p => p.FinalPrice >= model.MinPrice && p.FinalPrice <= model.MaxPrice);
+
+         
+            filteredProducts = model.SortBy switch
+            {
+                "PriceLow" => filteredProducts.OrderBy(p => p.FinalPrice),
+                "PriceHigh" => filteredProducts.OrderByDescending(p => p.FinalPrice),
+                "Name" or _ => filteredProducts.OrderBy(p => p.Name),
+            };
+           
+            model.Products = filteredProducts.ToList();
+            return View(model);
         }
-        
+
         private List<Product> GetProductsMock()
         {
             return new List<Product>

@@ -11,8 +11,23 @@ namespace univesp_pi2.Controllers
     {
         public IActionResult Index()
         {
+            var cartItems = HttpContext.Session.Get<List<CartItemViewModel>>("Cart") ?? new List<CartItemViewModel>();
+
+            // CORREÇÃO: Adiciona a condição 'if' que estava faltando.
+            // O código agora só redireciona se o carrinho estiver vazio.
+            if (!cartItems.Any())
+            {
+                return RedirectToAction("Index", "Cart");
+            } 
+
+            // Este código agora pode ser alcançado
+            var viewModel = new CheckoutViewModel
+            {
+                Items = cartItems
+            };
+
             ViewData["Title"] = "Finalizar Compra";
-            return View();
+            return View(viewModel); 
         }
 
         [HttpPost]
@@ -37,7 +52,9 @@ namespace univesp_pi2.Controllers
             var orders = HttpContext.Session.Get<List<OrderViewModel>>("UserOrders") ?? new List<OrderViewModel>();
             orders.Add(newOrder);
             HttpContext.Session.Set("UserOrders", orders);
+
             HttpContext.Session.Remove("Cart");
+
             return Json(new { success = true, message = "Pedido finalizado com sucesso!" });
         }
     }

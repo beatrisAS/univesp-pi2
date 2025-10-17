@@ -1,55 +1,292 @@
 @model AccountViewModel
-@{ ViewData["Title"] = "Minha Conta"; }
+@{
+    ViewData["Title"] = "Minha Conta";
+}
 
-<div class="modal fade" id="edit-profile-modal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Editar Perfil</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="row g-3"><div class="col-md-6"><label class="form-label">Nome Completo</label><input type="text" id="edit-profile-name" class="form-control" /></div><div class="col-md-6"><label class="form-label">Email</label><input type="email" id="edit-profile-email" class="form-control" /></div><div class="col-md-6"><label class="form-label">Telefone</label><input type="text" id="edit-profile-phone" class="form-control" /></div><div class="col-md-6"><label class="form-label">CPF</label><input type="text" id="edit-profile-cpf" class="form-control" /></div><div class="col-md-6"><label class="form-label">Data de Nascimento</label><input type="text" id="edit-profile-birthdate" class="form-control" /></div></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" id="save-profile-btn">Salvar Alterações</button></div></div></div></div>
-<div class="modal fade" id="edit-address-modal" tabindex="-1"><div class="modal-dialog modal-lg"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Editar Endereço</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="edit-address-original-title"><div class="row g-3"><div class="col-12"><label class="form-label">Apelido do Endereço</label><input type="text" id="edit-address-title" class="form-control" /></div><div class="col-md-4"><label class="form-label">CEP</label><input type="text" id="edit-address-cep" class="form-control" /></div><div class="col-md-8"><label class="form-label">Rua</label><input 
-type="text" id="edit-address-street" class="form-control" /></div><div class="col-md-4"><label class="form-label">Número</label><input type="text" id="edit-address-number" class="form-control" /></div><div class="col-md-8"><label class="form-label">Complemento</label><input type="text" id="edit-address-complement" class="form-control" /></div><div class="col-md-6"><label class="form-label">Bairro</label><input type="text" id="edit-address-neighborhood" class="form-control" /></div><div class="col-md-4"><label class="form-label">Cidade</label><input type="text" id="edit-address-city" class="form-control" /></div><div class="col-md-2"><label class="form-label">Estado</label><input type="text" id="edit-address-state" class="form-control" /></div></div></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" id="save-address-btn">Salvar Alterações</button></div></div></div></div>
-<div class="modal fade" id="delete-address-modal" tabindex="-1"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Confirmar Exclusão</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="delete-address-title-hidden"><p>Você tem certeza que deseja excluir o endereço "<strong id="address-to-delete-name"></strong>"?
-Esta ação não pode ser desfeita.</p></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-danger" id="confirm-delete-btn">Sim, Excluir</button></div></div></div></div>
+<div class="modal fade" id="edit-profile-modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Perfil</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-6"><label class="form-label">Nome Completo</label><input type="text" id="edit-profile-name" class="form-control" /></div>
+                    <div class="col-md-6"><label class="form-label">Email</label><input type="email" id="edit-profile-email" class="form-control" /></div>
+                    <div class="col-md-6"><label class="form-label">Telefone</label><input type="text" id="edit-profile-phone" class="form-control" /></div>
+                    <div class="col-md-6"><label class="form-label">CPF</label><input type="text" id="edit-profile-cpf" class="form-control" /></div>
+                    <div class="col-md-6"><label class="form-label">Data de Nascimento</label><input type="text" id="edit-profile-birthdate" class="form-control" /></div>
+                </div>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" id="save-profile-btn">Salvar Alterações</button></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit-address-modal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Endereço</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="edit-address-original-title">
+                <div class="row g-3">
+                    <div class="col-12"><label class="form-label">Apelido do Endereço</label><input type="text" id="edit-address-title" class="form-control" /></div>
+                    <div class="col-md-4"><label class="form-label">CEP</label><input type="text" id="edit-address-cep" class="form-control" /></div>
+                    <div class="col-md-8"><label class="form-label">Rua</label><input type="text" id="edit-address-street" class="form-control" /></div>
+                    <div class="col-md-4"><label class="form-label">Número</label><input type="text" id="edit-address-number" class="form-control" /></div>
+                    <div class="col-md-8"><label class="form-label">Complemento</label><input type="text" id="edit-address-complement" class="form-control" /></div>
+                    <div class="col-md-6"><label class="form-label">Bairro</label><input type="text" id="edit-address-neighborhood" class="form-control" /></div>
+                    <div class="col-md-4"><label class="form-label">Cidade</label><input type="text" id="edit-address-city" class="form-control" /></div>
+                    <div class="col-md-2"><label class="form-label">Estado</label><input type="text" id="edit-address-state" class="form-control" /></div>
+                </div>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" id="save-address-btn">Salvar Alterações</button></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-address-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar Exclusão</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="delete-address-title-hidden">
+                <p>Você tem certeza que deseja excluir o endereço "<strong id="address-to-delete-name"></strong>"? Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-danger" id="confirm-delete-btn">Sim, Excluir</button></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete-profile-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Excluir Conta Permanentemente</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Você tem certeza absoluta que deseja excluir sua conta?</p>
+                <p class="text-danger fw-bold">Esta ação é irreversível e todos os seus dados serão perdidos.</p>
+            </div>
+            <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-danger" id="confirm-delete-profile-btn">Sim, Excluir Minha Conta</button></div>
+        </div>
+    </div>
+</div>
+
 
 <div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4"><div><h1 class="h2 fw-bold">Minha Conta</h1><p class="text-muted">Gerencie suas informações e pedidos</p></div><a href="@Url.Action("Logout", "Login")" class="btn btn-outline-danger">Sair da Conta</a></div>
-    <ul class="nav nav-pills admin-tabs mb-4" id="account-tabs" role="tablist"><li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#profile-pane" type="button"><i data-lucide="user" class="me-2"></i> Perfil</button></li><li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#orders-pane" type="button"><i data-lucide="package" class="me-2"></i> Pedidos</button></li><li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#addresses-pane" type="button"><i data-lucide="map-pin" class="me-2"></i> Endereços</button></li>@if (Model.Profile.IsAdmin){<li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Dashboard", new { area = "Admin" })"><i data-lucide="shield" class="me-2"></i> Painel Administrativo</a></li>}</ul>
-    <div class="tab-content" id="account-tabs-content">
-     
-    <div class="tab-pane fade show active" id="profile-pane">
-            <div class="card mb-4"><div class="card-body p-4 d-flex align-items-center justify-content-between"><div class="d-flex align-items-center"><div class="p-3 bg-light rounded-circle me-3"><i data-lucide="user" class="text-primary"></i></div><div><h5 class="fw-bold mb-0">@Model.Profile.FullName</h5><span class="text-muted">@Model.Profile.Email</span></div></div><button id="edit-profile-btn" type="button" class="btn btn-primary"><i data-lucide="edit-3" class="me-2"></i> Editar Perfil</button></div></div>
-            <div class="card"><div class="card-body p-4"><div class="row"><div class="col-md-6 mb-3"><label class="small text-muted">Nome Completo</label><p>@Model.Profile.FullName</p></div><div class="col-md-6 mb-3"><label class="small text-muted">Email</label><p>@Model.Profile.Email</p></div><div class="col-md-6 mb-3"><label class="small text-muted">Telefone</label><p>@Model.Profile.Phone</p></div><div class="col-md-6 mb-3"><label class="small text-muted">CPF</label><p>@Model.Profile.Cpf</p></div><div class="col-md-6 mb-3"><label class="small text-muted">Data de Nascimento</label><p>@Model.Profile.BirthDate</p></div></div></div></div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 fw-bold">Minha Conta</h1>
+            <p class="text-muted">Gerencie suas informações e pedidos</p>
         </div>
-       
-    <div class="tab-pane fade" id="orders-pane">
-    @if(Model.Profile.IsAdmin) {
-        <h4 class="fw-bold">Pedidos de Fornecedores</h4><p class="text-muted">Acompanhamento de pedidos para reposição de estoque</p>
-        @foreach(var order in Model.SupplierOrders) {<div class="card mb-3"><div class="card-body p-4"><div class="row align-items-center"><div class="col-md-8"><span class="fw-bold">Pedido #@order.OrderId</span><span class="badge bg-info-subtle text-info-emphasis ms-2">@order.Status</span><div class="small text-muted mt-2"><p class="mb-1"><i data-lucide="calendar" class="me-2"></i> Data: @order.OrderDate.ToString("dd/MM/yyyy")</p><p class="mb-1"><i data-lucide="truck" class="me-2"></i> Fornecedor: @order.SupplierName</p><p class="mb-0"><i data-lucide="box" class="me-2"></i> @order.ItemCount itens</p></div></div><div class="col-md-4 text-md-end mt-3 mt-md-0"><h4 class="fw-bold 
-text-primary">@order.TotalCost.ToString("C")</h4><a href="@Url.Action("Invoice", "Orders", new { area = "Admin", orderId = order.OrderId })" target="_blank" class="btn btn-outline-secondary btn-sm">Ver Nota Fiscal</a></div></div></div></div>}
-    } else {
-                <h4 class="fw-bold">Meus Pedidos</h4><p class="text-muted">Histórico de compras e acompanhamento</p>
-                @if(!Model.Orders.Any()) { <div class="card"><div class="card-body text-center text-muted">Você ainda não fez nenhum pedido.</div></div> }
-                @foreach(var order in Model.Orders) {<div class="card mb-3"><div class="card-body p-4"><div class="row align-items-center"><div class="col-md-8"><span class="fw-bold">Pedido 
-#@order.OrderId</span><span class="badge bg-success-subtle text-success-emphasis ms-2">@order.Status</span><div class="small text-muted mt-2"><p class="mb-1"><i data-lucide="calendar" class="me-2"></i> Data: @order.Date.ToString("dd/MM/yyyy")</p><p class="mb-1"><i data-lucide="shopping-cart" class="me-2"></i> @order.ItemCount itens</p><p class="mb-0"><strong>Produtos:</strong> @string.Join(", ", order.Products)</p></div></div><div class="col-md-4 text-md-end mt-3 mt-md-0"><h4 class="fw-bold text-primary">@order.TotalPrice.ToString("C")</h4><a href="@Url.Action("Details", "Order", new { id = order.OrderId })" class="btn btn-outline-secondary btn-sm">Ver Detalhes</a></div></div></div></div>}
+        <a href="@Url.Action("Logout", "Login")" class="btn btn-outline-danger">Sair da Conta</a>
+    </div>
+
+    <ul class="nav nav-pills admin-tabs mb-4" id="account-tabs" role="tablist">
+        <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#profile-pane" type="button"><i data-lucide="user" class="me-2"></i> Perfil</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#orders-pane" type="button"><i data-lucide="package" class="me-2"></i> Pedidos</button></li>
+        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#addresses-pane" type="button"><i data-lucide="map-pin" class="me-2"></i> Endereços</button></li>
+        @if (Model.Profile.IsAdmin)
+        {
+            <li class="nav-item"><a class="nav-link" href="@Url.Action("Index", "Dashboard", new { area = "Admin" })"><i data-lucide="shield" class="me-2"></i> Painel Administrativo</a></li>
+        }
+    </ul>
+
+    <div class="tab-content" id="account-tabs-content">
+
+        <div class="tab-pane fade show active" id="profile-pane">
+            <div class="card mb-4">
+                <div class="card-body p-4 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        <div class="p-3 bg-light rounded-circle me-3"><i data-lucide="user" class="text-primary"></i></div>
+                        <div>
+                            <h5 class="fw-bold mb-0">@Model.Profile.FullName</h5><span class="text-muted">@Model.Profile.Email</span>
+                        </div>
+                    </div>
+                    <button id="edit-profile-btn" type="button" class="btn btn-primary"><i data-lucide="edit-3" class="me-2"></i> Editar Perfil</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-3"><label class="small text-muted">Nome Completo</label>
+                            <p>@Model.Profile.FullName</p>
+                        </div>
+                        <div class="col-md-6 mb-3"><label class="small text-muted">Email</label>
+                            <p>@Model.Profile.Email</p>
+                        </div>
+                        <div class="col-md-6 mb-3"><label class="small text-muted">Telefone</label>
+                            <p>@Model.Profile.Phone</p>
+                        </div>
+                        <div class="col-md-6 mb-3"><label class="small text-muted">CPF</label>
+                            <p>@Model.Profile.Cpf</p>
+                        </div>
+                        <div class="col-md-6 mb-3"><label class="small text-muted">Data de Nascimento</label>
+                            <p>@Model.Profile.BirthDate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-4 border-danger">
+                <div class="card-header bg-danger-subtle text-danger fw-bold">Zona de Perigo</div>
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="fw-bold">Excluir esta conta</h6>
+                        <p class="text-muted mb-0 small">Uma vez que você exclua sua conta, não há como voltar atrás.</p>
+                    </div>
+                    <button id="delete-profile-btn" type="button" class="btn btn-outline-danger">Excluir Conta</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="orders-pane">
+            @if (Model.Profile.IsAdmin)
+            {
+                <h4 class="fw-bold">Pedidos de Fornecedores</h4>
+                <p class="text-muted">Acompanhamento de pedidos para reposição de estoque</p>
+                @foreach (var order in Model.SupplierOrders)
+                {
+                    <div class="card mb-3">
+                        <div class="card-body p-4">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <span class="fw-bold">Pedido #@order.OrderId</span><span class="badge bg-info-subtle text-info-emphasis ms-2">@order.Status</span>
+                                    <div class="small text-muted mt-2">
+                                        <p class="mb-1"><i data-lucide="calendar" class="me-2"></i> Data: @order.OrderDate.ToString("dd/MM/yyyy")</p>
+                                        <p class="mb-1"><i data-lucide="truck" class="me-2"></i> Fornecedor: @order.SupplierName</p>
+                                        <p class="mb-0"><i data-lucide="box" class="me-2"></i> @order.ItemCount itens</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                    <h4 class="fw-bold text-primary">@order.TotalCost.ToString("C")</h4><a href="@Url.Action("Invoice", "Order", new { area = "Admin", orderId = order.OrderId })" target="_blank" class="btn btn-outline-secondary btn-sm">Ver Nota Fiscal</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <h4 class="fw-bold">Meus Pedidos</h4>
+                <p class="text-muted">Histórico de compras e acompanhamento</p>
+                @if (!Model.Orders.Any())
+                {
+                    <div class="card">
+                        <div class="card-body text-center text-muted">Você ainda não fez nenhum pedido.</div>
+                    </div>
+                }
+                @foreach (var order in Model.Orders)
+                {
+                    <div class="card mb-3">
+                        <div class="card-body p-4">
+                            <div class="row align-items-center">
+                                <div class="col-md-8">
+                                    <span class="fw-bold">Pedido #@order.OrderId</span><span class="badge bg-success-subtle text-success-emphasis ms-2">@order.Status</span>
+                                    <div class="small text-muted mt-2">
+                                        <p class="mb-1"><i data-lucide="calendar" class="me-2"></i> Data: @order.Date.ToString("dd/MM/yyyy")</p>
+                                        <p class="mb-1"><i data-lucide="shopping-cart" class="me-2"></i> @order.ItemCount itens</p>
+                                        <p class="mb-0"><strong>Produtos:</strong> @string.Join(", ", order.Products)</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                                    <h4 class="fw-bold text-primary">@order.TotalPrice.ToString("C")</h4><a href="@Url.Action("Details", "Order", new { id = order.OrderId })" class="btn btn-outline-secondary btn-sm">Ver Detalhes</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
             }
         </div>
+        
         <div class="tab-pane fade" id="addresses-pane">
-             <div class="d-flex justify-content-between align-items-center mb-3"><div><h4 class="fw-bold">Meus Endereços</h4><p class="text-muted">Gerencie seus endereços de entrega</p></div><a href="#" id="new-address-btn" class="btn btn-primary"><i data-lucide="plus" class="me-2"></i> 
-Novo Endereço</a></div>
-            @foreach(var address in Model.Addresses) { <div class="card mb-3 address-card @(address.IsPrimary ?
-"border-primary" : "")" data-address-title="@address.Title" data-street="@address.Street" data-number="@address.Number" data-complement="@address.Complement" data-neighborhood="@address.Neighborhood" data-city="@address.City" data-state="@address.State" data-cep="@address.Cep"><div class="card-body p-4"><div class="d-flex justify-content-between"><div><h6 class="fw-bold">@address.Title @if(address.IsPrimary){ <span class="badge bg-primary-subtle text-primary-emphasis">Principal</span> }</h6><p class="mb-0">@address.Street, @address.Number - @address.Complement</p><p class="mb-0">@address.Neighborhood - @address.City/@address.State</p><p class="mb-0">CEP: @address.Cep</p></div><div><button class="btn btn-sm btn-outline-secondary me-2 edit-address-btn"><i data-lucide="edit-3"></i> Editar</button><button class="btn btn-sm btn-outline-danger delete-address-btn"><i data-lucide="trash-2"></i> Excluir</button></div></div></div></div> }
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h4 class="fw-bold">Meus Endereços</h4>
+                    <p class="text-muted">Gerencie seus endereços de entrega</p>
+                </div><a href="#" id="new-address-btn" class="btn btn-primary"><i data-lucide="plus" class="me-2"></i> Novo Endereço</a>
+            </div>
+            @foreach (var address in Model.Addresses)
+            {
+                <div class="card mb-3 address-card @(address.IsPrimary ? "border-primary" : "")" data-address-title="@address.Title" data-street="@address.Street" data-number="@address.Number" data-complement="@address.Complement" data-neighborhood="@address.Neighborhood" data-city="@address.City" data-state="@address.State" data-cep="@address.Cep">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h6 class="fw-bold">@address.Title @if (address.IsPrimary)
+                                    { <span class="badge bg-primary-subtle text-primary-emphasis">Principal</span> }</h6>
+                                <p class="mb-0">@address.Street, @address.Number - @address.Complement</p>
+                                <p class="mb-0">@address.Neighborhood - @address.City/@address.State</p>
+                                <p class="mb-0">CEP: @address.Cep</p>
+                            </div>
+                            <div><button class="btn btn-sm btn-outline-secondary me-2 edit-address-btn"><i data-lucide="edit-3"></i> Editar</button><button class="btn btn-sm btn-outline-danger delete-address-btn"><i data-lucide="trash-2"></i> Excluir</button></div>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
     </div>
 </div>
 
 @section Scripts {
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const editProfileModalEl = document.getElementById('edit-profile-modal');
+    const editProfileModal = new bootstrap.Modal(editProfileModalEl);
+
     const editAddressModalEl = document.getElementById('edit-address-modal');
     const editAddressModal = new bootstrap.Modal(editAddressModalEl);
+
+    const deleteAddressModalEl = document.getElementById('delete-address-modal');
+    const deleteAddressModal = new bootstrap.Modal(deleteAddressModalEl);
     
-    function setModalTitle(title) {
+    const deleteProfileModalEl = document.getElementById('delete-profile-modal');
+    const deleteProfileModal = new bootstrap.Modal(deleteProfileModalEl);
+
+
+    document.getElementById('edit-profile-btn').addEventListener('click', function() {
+       
+        editProfileModalEl.querySelector('#edit-profile-name').value = "@Model.Profile.FullName";
+        editProfileModalEl.querySelector('#edit-profile-email').value = "@Model.Profile.Email";
+        editProfileModalEl.querySelector('#edit-profile-phone').value = "@Model.Profile.Phone";
+        editProfileModalEl.querySelector('#edit-profile-cpf').value = "@Model.Profile.Cpf";
+        editProfileModalEl.querySelector('#edit-profile-birthdate').value = "@Model.Profile.BirthDate";
+        editProfileModal.show();
+    });
+
+    document.getElementById('save-profile-btn').addEventListener('click', function() {
+        const model = {
+            FullName: document.getElementById('edit-profile-name').value,
+            Email: document.getElementById('edit-profile-email').value,
+            Phone: document.getElementById('edit-profile-phone').value,
+            Cpf: document.getElementById('edit-profile-cpf').value,
+            BirthDate: document.getElementById('edit-profile-birthdate').value
+        };
+        fetch('@Url.Action("EditProfile", "Account")', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(model)
+        }).then(res => res.json()).then(data => {
+            if (data.success) {
+                editProfileModal.hide();
+                window.location.reload();
+            } else {
+                alert('Erro ao salvar o perfil.');
+            }
+        });
+    });
+
+  
+    function setAddressModalTitle(title) {
         editAddressModalEl.querySelector('.modal-title').textContent = title;
     }
 
-    function clearAddressFields() {
+    function clearAddressModalFields() {
         editAddressModalEl.querySelector('#edit-address-original-title').value = '';
-        editAddressModalEl.querySelector('#edit-address-original-cep').value = '';
         editAddressModalEl.querySelector('#edit-address-title').value = '';
         editAddressModalEl.querySelector('#edit-address-cep').value = '';
         editAddressModalEl.querySelector('#edit-address-street').value = '';
@@ -58,86 +295,108 @@ Novo Endereço</a></div>
         editAddressModalEl.querySelector('#edit-address-neighborhood').value = '';
         editAddressModalEl.querySelector('#edit-address-city').value = '';
         editAddressModalEl.querySelector('#edit-address-state').value = '';
-
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-       const editProfileModalEl = document.getElementById('edit-profile-modal'); 
-       const editProfileModal = new bootstrap.Modal(editProfileModalEl);
-        document.getElementById('edit-profile-btn').addEventListener('click', function() {
-            editProfileModalEl.querySelector('#edit-profile-name').value = "@Model.Profile.FullName";
-            editProfileModalEl.querySelector('#edit-profile-email').value = "@Model.Profile.Email";
-            editProfileModalEl.querySelector('#edit-profile-phone').value = "@Model.Profile.Phone";
-            editProfileModalEl.querySelector('#edit-profile-cpf').value = "@Model.Profile.Cpf";
-            editProfileModalEl.querySelector('#edit-profile-birthdate').value = "@Model.Profile.BirthDate";
-            editProfileModal.show();
-        });
-        document.getElementById('save-profile-btn').addEventListener('click', function() {
-            const model = { FullName: document.getElementById('edit-profile-name').value, Email: document.getElementById('edit-profile-email').value, Phone: document.getElementById('edit-profile-phone').value, Cpf: document.getElementById('edit-profile-cpf').value, BirthDate: document.getElementById('edit-profile-birthdate').value };
-            fetch('@Url.Action("EditProfile", "Account")', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(model) }).then(res => res.json()).then(data => { if (data.success) { editProfileModal.hide(); window.location.reload(); } else { alert('Erro ao salvar o perfil.'); }});
-        });
+  
+    document.getElementById('new-address-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        clearAddressModalFields();
+        setAddressModalTitle('Adicionar Novo Endereço');
+        editAddressModal.show();
+    });
 
-        const deleteAddressModalEl = document.getElementById('delete-address-modal');
-        const deleteAddressModal = new bootstrap.Modal(deleteAddressModalEl);
-      
-
-        const newAddressBtn = document.getElementById('new-address-btn');
-        if (newAddressBtn) {
-            newAddressBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                clearAddressFields(); 
-                setModalTitle('Adicionar Novo Endereço'); 
-                editAddressModal.show();
-                
-            });
-        }
+ 
+    document.querySelectorAll('.edit-address-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const card = this.closest('.address-card');
+            setAddressModalTitle('Editar Endereço');
         
-
-        document.querySelectorAll('.edit-address-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const card = this.closest('.address-card');
-                setModalTitle('Editar Endereço'); 
-                editAddressModalEl.querySelector('#edit-address-original-title').value = card.dataset.addressTitle;
-                editAddressModalEl.querySelector('#edit-address-title').value = card.dataset.addressTitle;
-                editAddressModalEl.querySelector('#edit-address-cep').value = card.dataset.cep;
-
-                editAddressModalEl.querySelector('#edit-address-street').value = card.dataset.street;
-                editAddressModalEl.querySelector('#edit-address-number').value = card.dataset.number;
-                editAddressModalEl.querySelector('#edit-address-complement').value = card.dataset.complement;
-                editAddressModalEl.querySelector('#edit-address-neighborhood').value = card.dataset.neighborhood;
-                editAddressModalEl.querySelector('#edit-address-city').value = card.dataset.city;
-                editAddressModalEl.querySelector('#edit-address-state').value = card.dataset.state;
-                editAddressModal.show();
-            });
-        });
-
-        document.getElementById('save-address-btn').addEventListener('click', function() {
-            const model = { Title: document.getElementById('edit-address-title').value, Cep: document.getElementById('edit-address-cep').value, Street: document.getElementById('edit-address-street').value, Number: document.getElementById('edit-address-number').value, Complement: document.getElementById('edit-address-complement').value, Neighborhood: document.getElementById('edit-address-neighborhood').value, City: document.getElementById('edit-address-city').value, State: document.getElementById('edit-address-state').value };
-           
-            fetch('@Url.Action("EditAddress", "Account")', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(model) }).then(res => res.json()).then(data => { 
-                if (data.success) { 
-                    editAddressModal.hide(); 
-                    window.location.reload(); 
-                } else { 
-                    alert('Erro ao salvar o endereço.'); 
-                }
-            }); [cite: 15]
-        });
-
-        document.querySelectorAll('.delete-address-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const card = this.closest('.address-card');
-                const title = card.dataset.addressTitle;
-                deleteAddressModalEl.querySelector('#delete-address-title-hidden').value = title;
-                deleteAddressModalEl.querySelector('#address-to-delete-name').textContent = title;
-          
-                deleteAddressModal.show();
-            });
-        });
-        document.getElementById('confirm-delete-btn').addEventListener('click', function() {
-            const title = deleteAddressModalEl.querySelector('#delete-address-title-hidden').value;
-            fetch('@Url.Action("DeleteAddress", "Account")', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ Title: title }) }).then(res => res.json()).then(data => { if (data.success) { deleteAddressModal.hide(); document.querySelector(`.address-card[data-address-title="${title}"]`).remove(); } else { alert('Erro ao excluir o endereço.'); }});
+            editAddressModalEl.querySelector('#edit-address-original-title').value = card.dataset.addressTitle;
+            editAddressModalEl.querySelector('#edit-address-title').value = card.dataset.addressTitle;
+            editAddressModalEl.querySelector('#edit-address-cep').value = card.dataset.cep;
+            editAddressModalEl.querySelector('#edit-address-street').value = card.dataset.street;
+            editAddressModalEl.querySelector('#edit-address-number').value = card.dataset.number;
+            editAddressModalEl.querySelector('#edit-address-complement').value = card.dataset.complement;
+            editAddressModalEl.querySelector('#edit-address-neighborhood').value = card.dataset.neighborhood;
+            editAddressModalEl.querySelector('#edit-address-city').value = card.dataset.city;
+            editAddressModalEl.querySelector('#edit-address-state').value = card.dataset.state;
+            editAddressModal.show();
         });
     });
+
+  
+    document.getElementById('save-address-btn').addEventListener('click', function() {
+        const model = {
+            Title: document.getElementById('edit-address-title').value,
+            Cep: document.getElementById('edit-address-cep').value,
+            Street: document.getElementById('edit-address-street').value,
+            Number: document.getElementById('edit-address-number').value,
+            Complement: document.getElementById('edit-address-complement').value,
+            Neighborhood: document.getElementById('edit-address-neighborhood').value,
+            City: document.getElementById('edit-address-city').value,
+            State: document.getElementById('edit-address-state').value
+        };
+        fetch('@Url.Action("EditAddress", "Account")', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(model)
+        }).then(res => res.json()).then(data => {
+            if (data.success) {
+                editAddressModal.hide();
+                window.location.reload();
+            } else {
+                alert('Erro ao salvar o endereço.');
+            }
+        });
+    });
+
+  
+    document.querySelectorAll('.delete-address-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const card = this.closest('.address-card');
+            const title = card.dataset.addressTitle;
+            deleteAddressModalEl.querySelector('#delete-address-title-hidden').value = title;
+            deleteAddressModalEl.querySelector('#address-to-delete-name').textContent = title;
+            deleteAddressModal.show();
+        });
+    });
+
+  
+    document.getElementById('confirm-delete-btn').addEventListener('click', function() {
+        const title = deleteAddressModalEl.querySelector('#delete-address-title-hidden').value;
+        fetch('@Url.Action("DeleteAddress", "Account")', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ Title: title })
+        }).then(res => res.json()).then(data => {
+            if (data.success) {
+                deleteAddressModal.hide();
+                document.querySelector(`.address-card[data-address-title="${title}"]`).remove();
+            } else {
+                alert('Erro ao excluir o endereço.');
+            }
+        });
+    });
+    
+ 
+    document.getElementById('delete-profile-btn').addEventListener('click', function() {
+        deleteProfileModal.show();
+    });
+
+    document.getElementById('confirm-delete-profile-btn').addEventListener('click', function() {
+        fetch('@Url.Action("DeleteProfile", "Account")', {
+            method: 'POST'
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                alert('Sua conta foi excluída com sucesso.');
+                window.location.href = data.redirectUrl;
+            } else {
+                alert('Erro ao excluir a conta.');
+            }
+        });
+    });
+});
 </script>
 }

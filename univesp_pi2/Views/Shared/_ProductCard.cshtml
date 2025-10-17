@@ -1,29 +1,47 @@
 @model Product
 
-<div class="card h-100 product-card shadow-sm">
-    <a asp-controller="Produto" asp-action="Detalhes" asp-route-id="@Model.Id">
+<div class="card h-100 product-card" 
+     data-product-id="@Model.Id"
+     data-product-name="@Model.Name"
+     data-product-price="@Model.FinalPrice.ToString("F2").Replace(",", ".")"
+     data-product-image="@Model.ImageUrl"
+     data-product-brand="@Model.Brand"
+     data-product-code="@Model.Code">
+    
+    <a href="@Url.Action("Detalhes", "Produto", new { id = Model.Id })">
         <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Name">
     </a>
-    <div class="card-body d-flex flex-column">
-        <div>
-            <div class="d-flex justify-content-between align-items-start">
-                <p class="text-muted small mb-1">@Model.Brand</p>
-                <span class="badge bg-light text-dark-emphasis fw-bold border">
-                    <i data-lucide="star" style="width:12px; height:12px; fill:currentColor; color: #facc15;"></i> @Model.Rating
-                </span>
+    <div class="card-body p-3 d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-start">
+            <span class="product-brand text-uppercase">@Model.Brand</span>
+            <div class="d-flex align-items-center gap-1 small text-muted">
+                <i data-lucide="star" class="text-warning" fill="currentColor" style="width:16px; height:16px;"></i>
+                <span>@Model.Rating (@Model.ReviewCount)</span>
             </div>
-            <h3 class="card-title fs-5 fw-bold">
-                <a asp-controller="Produto" asp-action="Detalhes" asp-route-id="@Model.Id" class="text-dark text-decoration-none">
-                    @Model.Name
-                </a>
-            </h3>
         </div>
+        <h5 class="product-name my-1">
+            <a href="@Url.Action("Detalhes", "Produto", new { id = Model.Id })" class="text-decoration-none text-dark">@Model.Name</a>
+        </h5>
+        <p class="text-muted small">@Model.Code</p>
+
         <div class="mt-auto">
-            <p class="product-price mb-0 mt-3">@Model.FinalPrice.ToString("C")</p>
-            <p class="text-muted small">ou 3x de @((Model.FinalPrice / 3).ToString("C"))</p>
-            <a asp-controller="Produto" asp-action="Detalhes" asp-route-id="@Model.Id" class="btn btn-primary w-100 fw-bold mt-2">
-                <i data-lucide="shopping-cart" style="width:18px;"></i> Comprar
-            </a>
+            <p class="product-price mb-0">@Model.FinalPrice.ToString("C")</p>
+            <p class="price-installments mb-2">ou 3x de @((Model.FinalPrice / 3).ToString("C"))</p>
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold"></span>
+                @if (Model.IsInStock)
+                {
+                    <a href="#" class="btn btn-primary add-to-cart-btn">
+                        <i data-lucide="shopping-cart" class="text-white"></i>
+                    </a>
+                }
+                else
+                {
+                    <button class="cart-icon-btn" disabled style="background-color: #6c757d; cursor: not-allowed;">
+                        <i data-lucide="x" style="width:18px; height:18px;"></i>
+                    </button>
+                }
+            </div>
         </div>
     </div>
 </div>

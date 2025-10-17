@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace univesp_pi2.Models
 {
     public class ProfileViewModel
@@ -8,6 +10,5 @@ namespace univesp_pi2.Models
         public string Cpf { get; set; } = string.Empty;
         public string BirthDate { get; set; } = string.Empty;
         public bool IsAdmin { get; set; } = false;
-        public List<AddressViewModel> Addresses { get; set; } = new();
     }
 }
